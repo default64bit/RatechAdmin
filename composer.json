@@ -14,7 +14,7 @@
             "email": "kasrakeshvardoost@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Default64bit\\RatechAdmin\\": "src/"
