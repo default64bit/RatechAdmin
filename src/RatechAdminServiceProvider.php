@@ -30,8 +30,10 @@ class RatechAdminServiceProvider extends ServiceProvider
             \Default64bit\RatechAdmin\Commands\updateMiddlewareKernel::class,
             \Default64bit\RatechAdmin\Commands\updateRoutes::class,
             \Default64bit\RatechAdmin\Commands\updateConfigAuth::class,
+	        \Default64bit\RatechAdmin\Commands\updateDatabaseSeeder::class,
+
         ]);
-        
+
         $this->publishes([
             __DIR__.'/Controllers' => app_path('Http/Controllers'),
             __DIR__.'/Middlewares' => app_path('Http/Middleware'),

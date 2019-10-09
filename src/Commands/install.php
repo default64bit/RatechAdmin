@@ -42,6 +42,10 @@ class install extends Command
         Artisan::call('ratech-admin:update-middleware-kernel');
         Artisan::call('ratech-admin:update-auth-service-provider');
         Artisan::call('ratech-admin:update-config-auth');
+	    Artisan::call('ratech-admin:update-database-seeder');
+	    Artisan::call('migrate');
+	    Artisan::call('db:seed');
+
     }
 
 
