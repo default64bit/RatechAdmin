@@ -1,6 +1,6 @@
 <?php
 
-namespace Default64bit\RatechAdmin\Controllers\AdminPanel;
+namespace App\Http\Controllers\AdminPanel;
 
 use App\Admin;
 use Illuminate\Http\Request;

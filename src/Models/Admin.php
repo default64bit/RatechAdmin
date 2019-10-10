@@ -1,6 +1,6 @@
 <?php
 
-namespace Default64bit\RatechAdmin;
+namespace App;
 
 use App\Notifications\AdminResetPassword;
 use Illuminate\Notifications\Notifiable;

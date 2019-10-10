@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Htpp\Controllers\AdminPanel\AdminAuth;
+namespace App\Http\Controllers\AdminPanel\AdminAuth;
 
 use App\Admin;
 use Validator;
