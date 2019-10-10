@@ -49,7 +49,7 @@ class updateRoutes extends Command
     {
         $setting = [
             'path' => '/routes/web.php',
-            'stub' => __DIR__.'/../stubs/routes/web.stub',
+            'stub' => __DIR__.'/../../stubs/routes/web.stub',
         ];
 
         $fullPath = base_path() . $setting['path'];

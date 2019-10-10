@@ -50,7 +50,7 @@ class updateMiddlewareKernel extends Command
         $setting = [
             'path' => '/app/Http/Kernel.php',
             'search' => 'protected $routeMiddleware = [',
-            'stub' => __DIR__.'/../stubs/Middleware/Kernel.stub',
+            'stub' => __DIR__.'/../../stubs/Middleware/Kernel.stub',
         ];
 
         $fullPath = base_path() . $setting['path'];

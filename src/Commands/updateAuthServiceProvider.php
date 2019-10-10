@@ -50,7 +50,7 @@ class updateAuthServiceProvider extends Command
         $setting = [
             'path' => '/app/Providers/AuthServiceProvider.php',
             'search' => '$this->registerPolicies();',
-            'stub' => __DIR__.'/../stubs/Providers/AuthServiceProvider.stub',
+            'stub' => __DIR__.'/../../stubs/Providers/AuthServiceProvider.stub',
         ];
 
         $fullPath = base_path() . $setting['path'];
