@@ -58,7 +58,7 @@ class updateDatabaseSeeder extends Command
 		$originalContent = $this->files->get($fullPath);
 		$content = $this->files->get($setting['stub']);
 
-		$originalContent = str_replace($setting['search'], $stub, $originalContent);
+		$originalContent = str_replace($setting['search'], $content, $originalContent);
 
 		$this->files->put($fullPath,$originalContent);
 	}
