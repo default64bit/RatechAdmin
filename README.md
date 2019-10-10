@@ -8,7 +8,7 @@ composer require default64bit/ratech-admin
 
 ## Usage
 
-First public the necessary files
+First publish the necessary files
 
 ```bash
 php artisan vendor:publish Default64bit\RatechAdmin\RatechAdminServiceProvider
