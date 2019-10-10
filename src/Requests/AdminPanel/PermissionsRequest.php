@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\AdminPanel;
+namespace Default64bit\RatechAdmin\Requests\AdminPanel;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;

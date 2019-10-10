@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Default64bit\RatechAdmin\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;

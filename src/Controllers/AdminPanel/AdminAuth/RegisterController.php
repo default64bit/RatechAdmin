@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\AdminPanel\AdminAuth;
+namespace Default64bit\RatechAdmin\Controllers\AdminPanel\AdminAuth;
 
 use App\Admin;
 use Validator;
