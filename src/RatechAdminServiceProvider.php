@@ -40,7 +40,7 @@ class RatechAdminServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/Controllers' => app_path('Http/Controllers'),
             __DIR__.'/Middlewares' => app_path('Http/Middleware'),
-            __DIR__.'/Requsests' => app_path('Http/Requests'),
+            __DIR__.'/Requests' => app_path('Http/Requests'),
             __DIR__.'/Models' => app_path('/'),
 
             __DIR__.'/../database/migrations' => database_path('migrations'),
