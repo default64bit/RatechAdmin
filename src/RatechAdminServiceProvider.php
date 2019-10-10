@@ -13,9 +13,7 @@ class RatechAdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/auth.php', 'auth'
-        );
+        //
     }
 
     /**
@@ -31,6 +29,7 @@ class RatechAdminServiceProvider extends ServiceProvider
             \Default64bit\RatechAdmin\Commands\updateAuthServiceProvider::class,
             \Default64bit\RatechAdmin\Commands\updateMiddlewareKernel::class,
             \Default64bit\RatechAdmin\Commands\updateRoutes::class,
+            \Default64bit\RatechAdmin\Commands\updateConfigAuth::class,
         ]);
         
         $this->publishes([
