@@ -3,6 +3,7 @@
 namespace Default64bit\RatechAdmin\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 class install extends Command
 {
