@@ -27,7 +27,7 @@ class RatechAdminServiceProvider extends ServiceProvider
     {
 
         $this->commands([
-            \Commands\install::class
+            \Default64bit\RatechAdmin\Commands\install::class
         ]);
 
         $this->mergeConfigFrom(
