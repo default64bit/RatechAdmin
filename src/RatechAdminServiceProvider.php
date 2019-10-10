@@ -13,7 +13,9 @@ class RatechAdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // $this->app->singleton('command.default64bit.ratech-admin',function($app){
+        //     return $app['Default64bit\RatechAdmin\Commands\Install'];
+        // });
     }
 
     /**
@@ -24,10 +26,14 @@ class RatechAdminServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        $this->commands([
+            \Commands\install::class
+        ]);
+
         $this->mergeConfigFrom(
             __DIR__.'/../config/auth.php', 'auth'
         );
-
+        
         $this->publishes([
             __DIR__.'/Controllers' => app_path('Http/Controllers'),
             __DIR__.'/Middlewares' => app_path('Http/Middleware'),
