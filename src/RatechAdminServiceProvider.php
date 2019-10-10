@@ -1,6 +1,6 @@
 <?php
 
-namespace default64bit\src;
+namespace Default64bit\RatechAdmin;
 
 use Illuminate\Support\ServiceProvider;
 

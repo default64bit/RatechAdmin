@@ -18,5 +18,12 @@
         "psr-4": {
             "Default64bit\\RatechAdmin\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Default64bit\\RatechAdmin\\RatechAdminServiceProvider"
+            ]
+        }
     }
 }
