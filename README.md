@@ -1,6 +1,6 @@
 ## Installation
 
-Use the package manager [Composer](https://getcomposer.org/) to require RetechAdmin.
+Use the package manager [Composer](https://packagist.org/packages/default64bit/ratech-admin) to require RetechAdmin.
 
 ```bash
 composer require default64bit/ratech-admin
