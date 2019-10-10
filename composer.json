@@ -16,13 +16,13 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "default64bit\\ratech-admin\\": "src/"
+            "Default64bit\\RatechAdmin\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "default64bit\\ratech-admin\\ratechAdminServiceProvider"
+                "Default64bit\\RatechAdmin\\RatechAdminServiceProvider"
             ]
         }
     }

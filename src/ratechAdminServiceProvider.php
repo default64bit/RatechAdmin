@@ -4,7 +4,7 @@ namespace default64bit\src;
 
 use Illuminate\Support\ServiceProvider;
 
-class ratechAdminServiceProvider extends ServiceProvider
+class RatechAdminServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
