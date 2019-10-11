@@ -94,7 +94,7 @@
                         </div>
 
                         <!-- Search form -->
-                        <form class="navbar-search navbar-search-dark form-inline mr-sm-3" id="navbar-search-main">
+                        <form class="navbar-search navbar-search-dark form-inline {{App::isLocale('fa')?'mr-sm-3':'ml-sm-3'}}" id="navbar-search-main">
                             <div class="form-group mb-0">
                                 <div class="input-group input-group-alternative input-group-merge">
                                     <div class="input-group-prepend">
@@ -120,7 +120,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <ul class="navbar-nav align-items-center ml-0 mr-auto">
+                        <ul class="navbar-nav align-items-center {{App::isLocale('fa')?'ml-0 mr-auto':'mr-0 ml-auto'}}">
                             <li class="nav-item dropdown">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fad fa-bell"></i>
@@ -152,7 +152,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link p-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <div class="media align-items-center">
+                                    <div class="media align-items-center {{App::isLocale('fa')?'':'flex-row-reverse'}}">
                                         <span class="avatar avatar-sm rounded-circle">
                                             <img alt="Image placeholder" src="{{$admin->avatar_image!=''?asset('img/admins/'.$admin->avatar_image):asset('assets3/img/faces/avatar6.png')}}">
                                         </span>
@@ -192,7 +192,7 @@
                             </ul>
                         </div>
                         <div class="col-lg-6">
-                            <div class="copyright text-muted text-center text-lg-left" removed_class="text-center text-lg-left">
+                            <div class="copyright text-muted text-center {{App::isLocale('fa')?'text-lg-left':'text-lg-right'}}">
                                 © {{date('Y')}} <a href="https://ratechcompany.com" class="font-weight-bold" target="_blank">گروه راتک</a>
                             </div>
                         </div>
