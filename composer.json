@@ -1,6 +1,6 @@
 {
     "name": "default64bit/ratech-admin",
-    "type": "project",
+    "type": "library",
     "require": {
         "laravel/helpers": "^1.1",
         "spatie/laravel-permission": "^3.0",
@@ -13,7 +13,7 @@
             "email": "kasrakeshvardoost@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Default64bit\\RatechAdmin\\": "src/"
