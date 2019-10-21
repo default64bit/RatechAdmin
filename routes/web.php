@@ -22,6 +22,8 @@ Route::group(['namespace'=>'AdminPanel','prefix'=>'admin'], function () {
         Route::resources(['admins'=>'AdminsController']);
         Route::resources(['roles'=>'RolesController']);
         Route::resources(['permissions'=>'PermissionsController']);
+
+        //route insert head ->
         
     });
 });

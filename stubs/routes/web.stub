@@ -23,7 +23,7 @@ Route::group(['namespace'=>'AdminPanel','prefix'=>'admin'], function () {
         Route::resources(['roles'=>'RolesController']);
         Route::resources(['permissions'=>'PermissionsController']);
 
-        //insert head ->
+        //route insert head ->
         
     });
 });
