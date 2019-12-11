@@ -40,7 +40,7 @@
         ?>
         <div class="col-12">
             @foreach($models_array as $name => $permission)
-            <h4 class="badge badge-dark text-white">{{$name}}</h4>
+            <h4 class="badge badge-dark text-white">{{str_replace('جستجو ','',$permission[0][2])}}</h4>
             <div class="form-row card p-2 d-flex flex-row justify-content-between">
                 @foreach($permission as $item)
                 <div class="custom-control custom-checkbox" name="permission_item">
