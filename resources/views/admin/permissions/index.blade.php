@@ -93,7 +93,10 @@
             targets: 'no-sort', orderable: false
         }],
         "order": [[0, "desc"]],
-        "language": {"info": "نمایش _START_ تا _END_ ردیف (از _TOTAL_ رکورد)"}
+        "language": {
+            "info": "نمایش _START_ تا _END_ ردیف (از _TOTAL_ رکورد)",
+            "emptyTable": "اطلاعاتی برای نمایش وجود ندارد"
+        }
     });
     $('#key-search').on('keyup', function () {
         table.search(this.value).draw();
