@@ -74,6 +74,12 @@
                             <a class="nav-link {{$current_route=='/admin/about_us'?'active':''}}" href="<?=url('admin/about_us');?>"><i class="fad fa-receipt text-orange"></i> <span class="nav-link-text">درباره ما</span></a>
                         </li>
                         @endcan
+                        @can('panel_settings.browse')
+                        <hr class="my-1 w-75 border-light">
+                        <li class="nav-item">
+                            <a class="nav-link {{$current_route=='/admin/panel_settings'?'active':''}}" href="<?=url('admin/panel_settings');?>"><i class="fad fa-sliders-h-square text-gray"></i> <span class="nav-link-text">تنظیمات پنل</span></a>
+                        </li>
+                        @endcan
                     </ul>
                 </div>
             </div>

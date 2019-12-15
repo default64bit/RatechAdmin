@@ -103,12 +103,11 @@
                     if(response.success){
                         window.location.href = "{{url()->previous()}}";
                     }else{
-                        if(response.error.name){swal({title: '', text: response.error.name, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
-                        if(response.error.permissions){swal({title: '', text: response.error.permissions, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                        if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
                     }
                 },
                 success: function(response){},
-                error: function(response){ swal({ title: response.responseText, type: "error", confirmButtonText: "خٌب" }); }
+                error: function(response){ Swal.fire({ title: response.responseText, type: "error", confirmButtonText: "خٌب" }); }
             });
         }
     });

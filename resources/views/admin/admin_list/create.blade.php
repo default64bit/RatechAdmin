@@ -102,11 +102,11 @@
                     if(response.success){
                         window.location.href = "{{url()->previous()}}";
                     }else{
-                        if(response.error){swal({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                        if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
                     }
                 },
                 success: function(data){},
-                error: function(data){ swal({title: data.responseText, type: "error", confirmButtonText: "خٌب"}); }
+                error: function(data){ Swal.fire({title: data.responseText, type: "error", confirmButtonText: "خٌب"}); }
             });
         }
     });

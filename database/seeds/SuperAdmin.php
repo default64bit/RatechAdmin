@@ -45,7 +45,14 @@ class SuperAdmin extends Seeder
             ['permission.edit','ویرایش دسترسی'],
             ['permission.add','افزودن دسترسی'],
             ['permission.delete','حذف دسترسی'],
+
+            ['panel_settings.browse','جستجو تنظیمات پنل'],
+            ['panel_settings.read','مشاهده تنظیمات پنل'],
+            ['panel_settings.edit','ویرایش تنظیمات پنل'],
+            ['panel_settings.add','افزودن تنظیمات پنل'],
+            ['panel_settings.delete','حذف تنظیمات پنل'],
         ];
+        
         foreach($default_permissions as $default_permission){
             $permission = Permission::create([
                 'name'=>$default_permission[0],

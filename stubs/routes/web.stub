@@ -25,6 +25,7 @@ Route::group(['namespace'=>'AdminPanel','prefix'=>'admin'], function () {
 
         //route insert head ->
         
+        Route::resources(['panel_settings' => 'Panel_settingsController']);
     });
 });
 
