@@ -78,16 +78,19 @@ class Panel_settingsController extends Controller
         $this->authorize('panel_settings.edit');
 
         $title = $request->title;
-        if ($request->hasFile('logo')) {
+        if($request->hasFile('logo')){
             $logo = $request->file('logo');
             $file_name = 'logo.' . $logo->getClientOriginalExtension();
             $logo->move('img', $file_name);
-            $setting_json = json_encode([
-                'title' => $title,
-                'logo' => $file_name
-            ]);
-            $jsonData = Storage::put('panel_settings.json',);
+        }else{
+            $setting_json = json_decode(Storage::get('settings.json'));
+            $file_name = $setting_json->logo;
         }
+        $setting_json = json_encode([
+            'title' => $title,
+            'logo' => $file_name
+        ]);
+        $jsonData = Storage::put('panel_settings.json',);
 
         return response(['success'=>true]);
     }
