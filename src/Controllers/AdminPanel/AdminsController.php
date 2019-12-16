@@ -51,6 +51,12 @@ class AdminsController extends Controller
         ]);
         $roles = explode(',',$request->admin_roles);
         $admin->assignRole($roles);
+
+        session()->flash('action_status', json_encode([
+            'type' => 'success', 'icon' => "fad fa-plus",
+            'title' => 'ایجاد ادمین', 'message' => 'ادمین جدید با موفقیت ایجاد شد'
+        ]));
+
         return response(['success'=>true]);
     }
 
@@ -107,6 +113,11 @@ class AdminsController extends Controller
         }
         $roles = explode(',',$request->admin_roles);
         $admin->assignRole($roles);
+
+        session()->flash('action_status', json_encode([
+            'type' => 'info', 'icon' => "fad fa-pen",
+            'title' => 'ویرایش ادمین', 'message' => 'ادمین با موفقیت ویرایش شد'
+        ]));
 
         return response(['success'=>true]);
     }

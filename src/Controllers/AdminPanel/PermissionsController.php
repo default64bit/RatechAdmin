@@ -47,6 +47,12 @@ class PermissionsController extends Controller
             'name' => $request->name,
             'label' => $request->label,
         ]);
+
+        session()->flash('action_status', json_encode([
+            'type' => 'success', 'icon' => "fad fa-plus",
+            'title' => 'دسترسی ادمین', 'message' => 'ادمین جدید با موفقیت دسترسی شد'
+        ]));
+
         return response(['success'=>true]);
     }
 
@@ -88,6 +94,12 @@ class PermissionsController extends Controller
             'name' => $request->name,
             'label' => $request->label,
         ]);
+
+        session()->flash('action_status', json_encode([
+            'type' => 'info', 'icon' => "fad fa-pen",
+            'title' => 'ویرایش دسترسی', 'message' => 'دسترسی با موفقیت ویرایش شد'
+        ]));
+
         return response(['success'=>true]);
     }
 

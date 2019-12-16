@@ -64,6 +64,20 @@
 <script src="{{asset('assets3/vendor/select2/dist/js/select2.min.js')}}"></script>
 <script src="{{asset('assets3/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
 
+@if(session()->has('action_status'))
+<?php $status = json_decode(session()->get('action_status'))?>
+<script>
+    $(document).ready(function () {
+        notify_setting.type = '<?=$status->type?>';
+        $.notify({
+            icon: '<?=$status->icon?>',
+            title: '<?=$status->title?>',
+            message: '<?=$status->message?>'
+        }, notify_setting);
+    });
+</script>
+@endif
+
 <script>
     $('.navbar-search').remove();
 

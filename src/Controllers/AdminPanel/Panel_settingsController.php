@@ -92,6 +92,11 @@ class Panel_settingsController extends Controller
         ]);
         $jsonData = Storage::put('panel_settings.json',);
 
+        session()->flash('action_status', json_encode([
+            'type' => 'info', 'icon' => "fad fa-pen",
+            'title' => 'ویرایش تنظیمات', 'message' => 'تنظیمات با موفقیت ویرایش شد'
+        ]));
+
         return response(['success'=>true]);
     }
 

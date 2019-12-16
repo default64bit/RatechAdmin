@@ -57,6 +57,11 @@ class RolesController extends Controller
             if($permission){ $role->givePermissionTo($permission); }
         }
 
+        session()->flash('action_status', json_encode([
+            'type' => 'success', 'icon' => "fad fa-plus",
+            'title' => 'دسترسی نقش', 'message' => 'نقش جدید با موفقیت دسترسی شد'
+        ]));
+
         return response(['success'=>true]);
     }
 
@@ -110,6 +115,12 @@ class RolesController extends Controller
             $permission = Permission::find($permission_id);
             if($permission){ $role->givePermissionTo($permission); }
         }
+
+        session()->flash('action_status', json_encode([
+            'type' => 'info', 'icon' => "fad fa-pen",
+            'title' => 'ویرایش نقش', 'message' => 'نقش با موفقیت ویرایش شد'
+        ]));
+        
         return response(['success'=>true]);
     }
 

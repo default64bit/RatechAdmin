@@ -39,13 +39,13 @@
 <script src="{{asset('assets3/vendor/chart.js/dist/Chart.min.js')}}"></script>
 <script src="{{asset('assets3/vendor/chart.js/dist/Chart.extension.js')}}"></script>
 <script>
-    $(document).ready(function(){
-        notify_setting.type = 'info';
-        $.notify({
-            icon: 'fad fa-check',
-            title: 'عنوان',
-            message: 'متن پیام' 
-        },notify_setting);
-    });
+    // $(document).ready(function(){
+    //     notify_setting.type = 'info';
+    //     $.notify({
+    //         icon: 'fad fa-check',
+    //         title: 'عنوان',
+    //         message: 'متن پیام' 
+    //     },notify_setting);
+    // });
 </script>
 @endsection

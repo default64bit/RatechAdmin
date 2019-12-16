@@ -86,6 +86,21 @@
 <script src="{{asset('assets3/vendor/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
 <script src="{{asset('assets3/vendor/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('assets3/vendor/datatables.net-select/js/dataTables.select.min.js')}}"></script>
+
+@if(session()->has('action_status'))
+<?php $status = json_decode(session()->get('action_status'))?>
+<script>
+    $(document).ready(function () {
+        notify_setting.type = '<?=$status->type?>';
+        $.notify({
+            icon: '<?=$status->icon?>',
+            title: '<?=$status->title?>',
+            message: '<?=$status->message?>'
+        }, notify_setting);
+    });
+</script>
+@endif
+
 <script>
     var table = $('#datatable').DataTable({
         paging: false, pageLength: 200,
