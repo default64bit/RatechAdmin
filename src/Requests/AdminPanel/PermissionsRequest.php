@@ -37,7 +37,7 @@ class PermissionsRequest extends FormRequest
                 ]; break;
             case 'PUT':
                 return [
-                    'name' => 'required|max:255|unique:permissions,id,'.$this->id,
+                    'name' => 'required|max:255|unique:permissions,name,'.$this->id,
                     'label' => 'required|max:255',
                 ]; break;
         }
