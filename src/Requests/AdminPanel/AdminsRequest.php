@@ -41,8 +41,8 @@ class AdminsRequest extends FormRequest
             case 'PUT':
                 return [
                     'name' => 'required|max:255',
-                    'username' => 'required|max:255|unique:admins,id,'.$this->id,
-                    'email' => 'required|email|max:255|unique:admins,id,'.$this->id,
+                    'username' => 'required|max:255|unique:admins,username,'.$this->id,
+                    'email' => 'required|email|max:255|unique:admins,email,'.$this->id,
                     'password' => 'nullable|confirmed|min:8',
                     'admin_roles' => 'required',
                 ]; break;
