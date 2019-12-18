@@ -1,5 +1,9 @@
 @extends('templates.admin3')
 
+@section('title')
+لیست نقش ها
+@endsection
+
 @section('css')
 <link rel="stylesheet" href="{{asset('assets3/vendor/animate.css/animate.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets3/vendor/sweetalert2/dist/sweetalert2.min.css')}}">

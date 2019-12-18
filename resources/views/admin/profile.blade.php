@@ -1,6 +1,7 @@
 @extends('templates.admin3')
 
 @section('title')
+پروفایل
 @endsection
 
 @section('css')

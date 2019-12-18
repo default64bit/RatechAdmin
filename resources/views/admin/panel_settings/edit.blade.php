@@ -1,7 +1,7 @@
 @extends('templates.admin3')
 
 @section('title')
-    تنظیمات پنل
+تنظیمات پنل
 @endsection
 
 @section('css')
