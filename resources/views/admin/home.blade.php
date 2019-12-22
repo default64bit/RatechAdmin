@@ -5,7 +5,7 @@
 @endphp
 
 @section('title')
-راتک
+{{$panel_settings->title}}
 @endsection
 
 @section('css')

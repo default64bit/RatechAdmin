@@ -6,8 +6,8 @@
         <div class="col-md-12">
             <div class="panel card bg-secondary">
                 <div class="panel-heading title">
-                    <img src="<?=asset('img/logo.png')?>" alt="">
-                    <h2>Ratech Admin Panel</h2>
+                    <img src="{{asset('img/'.$panel_settings->logo)}}" alt="">
+                    <h2>{{$panel_settings->title}}</h2>
                 </div>
                 <div class="panel-body card-body">
                     <form class="form-horizontal form-info" role="form" method="POST" action="{{ url('/admin/login') }}">

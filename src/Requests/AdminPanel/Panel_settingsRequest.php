@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PermissionsRequest extends FormRequest
+class Panel_settingsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,13 +32,13 @@ class PermissionsRequest extends FormRequest
         switch($this->method()){
             case 'POST':
                 return [
-                    'name' => 'required|unique:permissions|max:255',
-                    'label' => 'required|max:255',
+                    'logo' => 'image|size:5000',
+                    'title' => 'required|max:255|string',
                 ]; break;
             case 'PUT':
                 return [
-                    'name' => 'required|max:255|unique:permissions,name,'.$this->id,
-                    'label' => 'required|max:255',
+                    'logo' => 'image|size:5000',
+                    'title' => 'required|max:255|string',
                 ]; break;
         }
         
@@ -48,9 +48,11 @@ class PermissionsRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'نام دسترسی اجباری است',
-            'name.unique' => 'نام دسترسی قبلا استفاده شده',
-            'label.required' => 'عنوان دسترسی اجباری است',
+            'title.string' => 'عنوان سایت باید یک رشته باشد',
+            'title.max' => 'عنوان سایت حداکثر 255 کاراکتر می تواند باشد',
+            
+            'logo.image' => 'لوگوی سایت باید با یکی از فرمت های  jpeg, png, bmp, gif, svg, webp آپلود شود',
+            'logo.size' => 'لوگوی سایت حداکثر می تواند 5 مگابایت باشد',
         ];
     }
 

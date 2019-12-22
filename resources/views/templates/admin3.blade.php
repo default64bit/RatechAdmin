@@ -32,10 +32,10 @@
         <nav class="sidenav navbar navbar-vertical {{App::isLocale('fa')?'fixed-right':'fixed-left'}} navbar-expand-xs navbar-dark bg-white p-0" id="sidenav-main">
             <!-- Brand -->
             <div class="sidenav-header d-flex flex-md-column align-items-center justify-content-center">
-                <a class="navbar-brand p-1" href="../../pages/dashboards/dashboard.html">
-                    <img src="{{asset('img/logo.png')}}" class="navbar-brand-img" alt="...">
+                <a class="navbar-brand p-1" href="{{url('/')}}">
+                    <img src="{{asset('img/'.$panel_settings->logo)}}" class="navbar-brand-img" alt="...">
                 </a>
-                <h1 class="m-0 p-2 text-light">گروه راتک</h1>
+                <h1 class="m-0 p-2 text-light">{{$panel_settings->title}}</h1>
                 <div class="ml-auto d-none">
                     <!-- Sidenav toggler -->
                     <div class="sidenav-toggler d-none" data-action="sidenav-unpin" data-target="#sidenav-main">

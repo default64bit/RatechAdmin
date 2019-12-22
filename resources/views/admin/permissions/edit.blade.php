@@ -1,5 +1,9 @@
 @extends('templates.admin3')
 
+@section('title')
+ویرایش دسترسی
+@endsection
+
 @section('css')
 <link rel="stylesheet" href="{{asset('assets3/vendor/sweetalert2/dist/sweetalert2.min.css')}}">
 @endsection
