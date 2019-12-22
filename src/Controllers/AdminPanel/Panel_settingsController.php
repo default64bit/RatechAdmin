@@ -15,7 +15,7 @@ class Panel_settingsController extends Controller
      */
     public function index()
     {
-        $this->authorize('panel_settings.browse');
+        $this->authorize('panel_settings.read');
         //
     }
 

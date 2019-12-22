@@ -20,7 +20,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $this->authorize('role.browse');
+        $this->authorize('role.read');
         $roles = Role::where('name','!=','SuperAdmin')->where('guard_name','admin')->latest()->paginate(20);
         return view('admin.roles.index',compact('roles'));
     }

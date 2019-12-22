@@ -18,7 +18,7 @@ class PermissionsController extends Controller
      */
     public function index()
     {
-        $this->authorize('permission.browse');
+        $this->authorize('permission.read');
         $permissions = Permission::where('guard_name','admin')->latest()->paginate(20);
         return view('admin.permissions.index',compact('permissions'));
     }

@@ -17,7 +17,7 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        $this->authorize('admin.browse');
+        $this->authorize('admin.read');
         $admins = Admin::where('id','!=',1)->latest()->paginate(20);
         return view('admin.admin_list.index',compact('admins'));
     }
@@ -109,7 +109,7 @@ class AdminsController extends Controller
 
         $admin_roles = $admin->roles()->select('name')->get();
         foreach($admin_roles as $role){
-            $admin->removeRole($role);
+            $admin->removeRole($role->name);
         }
         $roles = explode(',',$request->admin_roles);
         $admin->assignRole($roles);

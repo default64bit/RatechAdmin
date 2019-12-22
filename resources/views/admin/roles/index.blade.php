@@ -119,6 +119,7 @@
         table.search(this.value).draw();
     });
     $('.navbar-search input').attr('placeholder','جستجو نقش ها');
+    @cannot('role.browse') $('.navbar-search').remove(); @endcannot
 
     $('.btn_delete').click(function(){
         var record_id = $(this).attr('row-id');
