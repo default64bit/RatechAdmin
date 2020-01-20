@@ -49,17 +49,24 @@ class updateAppServiceProvider extends Command
     {
         $setting = [
             'path' => '/app/Providers/AppServiceProvider.php',
-            'search' => 'public function boot()',
+            'search' => "/public function boot\(\)\n    {\n        \/\//",
+            'orginal' => "public function boot()",
             'stub' => __DIR__.'/../../stubs/Providers/AppServiceProvider.stub',
+
+            'search_imports' => 'use Illuminate\Support\ServiceProvider;',
+            'stub_imports' => __DIR__.'/../../stubs/Providers/AppServiceProviderImports.stub',
         ];
 
         $fullPath = base_path() . $setting['path'];
 
         $originalContent = $this->files->get($fullPath);
         $content = $this->files->get($setting['stub']);
-        $stub = $setting['search'].$content;
+        $stub = $setting['orginal'].$content;
+        $originalContent = preg_replace($setting['search'], $stub, $originalContent);
 
-        $originalContent = str_replace($setting['search'], $stub, $originalContent);
+        $content_imports = $this->files->get($setting['stub_imports']);
+        $stub_imports = $setting['search_imports'].$content_imports;
+        $originalContent = str_replace($setting['search_imports'], $stub_imports, $originalContent);
 
         $this->files->put($fullPath,$originalContent);
     }
