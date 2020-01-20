@@ -51,6 +51,10 @@ class LoginController extends Controller
         return view('admin.login3');
     }
 
+    public function logoutToPath(){
+        return '/admin';
+    }
+
     /**
      * Get the guard to be used during authentication.
      *
