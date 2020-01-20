@@ -92,13 +92,12 @@
     $('.btn_edit_confirm').click(function(){
         var title = $('.card-body input[name="title"]').val();
         if(title != ''){
-            form_data.append('_method', 'post');
             form_data.append('_token', $('meta[name=csrf-token]').attr('content'));
             form_data.append('title', title);
 
             load_screen(true);
             $.ajax({
-                url: "{{url('admin/settings')}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,
+                url: "{{url('admin/panel_settings')}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 complete: function(response){
                     load_screen(false);
@@ -112,7 +111,7 @@
                     }
                 },
                 success: function(response){},
-                error: function(response){ Swal.fire({ title: data.responseText, type: "error", confirmButtonText: "خٌب" }); }
+                error: function(response){ Swal.fire({ title: response.responseText, type: "error", confirmButtonText: "خٌب" }); }
             });
         }
     });

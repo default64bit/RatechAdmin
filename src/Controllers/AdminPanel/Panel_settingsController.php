@@ -16,7 +16,9 @@ class Panel_settingsController extends Controller
     public function index()
     {
         $this->authorize('panel_settings.read');
-        //
+        $this->authorize('panel_settings.edit');
+        $setting_json = json_decode(Storage::get('settings.json'));
+        return view('admin.panel_settings.edit', compact('setting_json'));
     }
 
     /**
@@ -39,7 +41,25 @@ class Panel_settingsController extends Controller
     public function store(Request $request)
     {
         $this->authorize('panel_settings.add');
-        //
+        
+        $json = [];
+        $jsonFile = json_decode(Storage::get('settings.json'));
+        $json['title'] = $request->has('title') ? $request->title : $jsonFile->title;
+        $json['logo'] = $jsonFile->logo;
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $file_name = 'logo.' . $logo->getClientOriginalExtension();
+            $logo->move('img', $file_name);
+            $json['logo'] = $file_name;
+        }
+        $jsonData = Storage::put('settings.json', json_encode($json));
+        session()->flash('action_status', json_encode([
+            'type' => 'info', 'icon' => "fad fa-pen",
+            'title' => 'ویرایش تنظیمات', 'message' => 'تنظیمات پنل با موفقیت ویرایش شد'
+        ]));
+        return response()->json(['success' => true]);
+
+        return response(['success'=>true]);
     }
 
     /**
@@ -76,28 +96,7 @@ class Panel_settingsController extends Controller
     public function update(Request $request, $id)
     {
         $this->authorize('panel_settings.edit');
-
-        $title = $request->title;
-        if($request->hasFile('logo')){
-            $logo = $request->file('logo');
-            $file_name = 'logo.' . $logo->getClientOriginalExtension();
-            $logo->move('img', $file_name);
-        }else{
-            $setting_json = json_decode(Storage::get('settings.json'));
-            $file_name = $setting_json->logo;
-        }
-        $setting_json = json_encode([
-            'title' => $title,
-            'logo' => $file_name
-        ]);
-        $jsonData = Storage::put('panel_settings.json',);
-
-        session()->flash('action_status', json_encode([
-            'type' => 'info', 'icon' => "fad fa-pen",
-            'title' => 'ویرایش تنظیمات', 'message' => 'تنظیمات با موفقیت ویرایش شد'
-        ]));
-
-        return response(['success'=>true]);
+        //
     }
 
     /**

@@ -113,6 +113,7 @@
         }],
         "order": [[0, "desc"]],
         "language": {
+            "infoEmpty": "",
             "info": "نمایش _START_ تا _END_ ردیف (از _TOTAL_ رکورد)",
             "emptyTable": "اطلاعاتی برای نمایش وجود ندارد"
         }
