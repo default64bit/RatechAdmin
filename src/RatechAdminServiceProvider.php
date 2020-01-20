@@ -26,6 +26,7 @@ class RatechAdminServiceProvider extends ServiceProvider
 
         $this->commands([
             \Default64bit\RatechAdmin\Commands\install::class,
+            \Default64bit\RatechAdmin\Commands\updateAppServiceProvider::class,
             \Default64bit\RatechAdmin\Commands\updateAuthServiceProvider::class,
             \Default64bit\RatechAdmin\Commands\updateMiddlewareKernel::class,
             \Default64bit\RatechAdmin\Commands\updateRoutes::class,
