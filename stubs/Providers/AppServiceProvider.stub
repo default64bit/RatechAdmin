@@ -1,0 +1,4 @@
+    {
+        //
+        $settingJson = json_decode(Storage::get('settings.json'));
+        View::share('panel_settings', $settingJson);
