@@ -1,3 +1,4 @@
+    
     {
         //
         $settingJson = json_decode(Storage::get('settings.json'));
