@@ -48,7 +48,8 @@ class RatechAdminServiceProvider extends ServiceProvider
             __DIR__.'/../database/seeds' => database_path('seeds'),
 
             __DIR__.'/../resources/views' => resource_path('views'),
-            
+            __DIR__.'/../resources/lang' => resource_path('lang'),
+
             __DIR__.'/../storage/app' => storage_path('/app'),
         ]);
     }

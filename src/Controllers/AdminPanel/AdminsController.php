@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\AdminPanel\AdminsRequest;
+use Exception;
 
 class AdminsController extends Controller
 {
@@ -24,6 +25,16 @@ class AdminsController extends Controller
             $admins = ModelHelper::search($admins,Admin::SEARCHABLE,$search);
         }
         $admins = $admins->paginate(20);
+
+        $relations = Admin::RELATIONS_FOR_CHECK;
+        foreach($admins as &$admin){
+            foreach($relations as $relation){
+                if(count($admin[$relation['relation_name']])){
+                    $admin['has_relation'] = 1;
+                }
+            }
+        }
+
         return view('admin.admin_list.index',compact('admins'));
     }
 
@@ -50,8 +61,10 @@ class AdminsController extends Controller
         $this->authorize('admin.add');
         $admin = Admin::create([
             'name'=>$request->name,
+            'family'=>$request->family,
             'username'=>$request->username,
             'email'=>$request->email,
+            'phone'=>$request->phone,
             'password'=>bcrypt($request->password),
         ]);
         // $roles = explode(',',$request->admin_roles);
@@ -59,8 +72,8 @@ class AdminsController extends Controller
         $admin->assignRole($role);
 
         session()->flash('action_status', json_encode([
-            'type' => 'success', 'icon' => "fad fa-plus",
-            'title' => 'ایجاد ادمین', 'message' => 'ادمین جدید با موفقیت ایجاد شد'
+            'type' => 'success', 'icon' => "fad fa-plus", 'title' => '',
+            'message' =>  $admin->username.' با موفقیت ایجاد شد'
         ]));
 
         return response(['success'=>true]);
@@ -107,8 +120,10 @@ class AdminsController extends Controller
         $admin = Admin::findOrFail($id);
         $admin->update([
             'name'=>$request->name,
+            'family'=>$request->family,
             'username'=>$request->username,
             'email'=>$request->email,
+            'phone'=>$request->phone,
         ]);
         if($request->password !=""){
             $admin->update(['password'=>bcrypt($request->password)]);
@@ -123,11 +138,67 @@ class AdminsController extends Controller
         $admin->assignRole($role);
 
         session()->flash('action_status', json_encode([
-            'type' => 'info', 'icon' => "fad fa-pen",
-            'title' => 'ویرایش ادمین', 'message' => 'ادمین با موفقیت ویرایش شد'
+            'type' => 'info', 'icon' => "fad fa-pen", 'title' => '',
+            'message' => $admin->username.' با موفقیت ویرایش شد'
         ]));
 
         return response(['success'=>true]);
+    }
+
+    /**
+     * Show the form for transforming the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function transform_page($id)
+    {
+        $this->authorize('admin.transform');
+        $admin = Admin::findOrFail($id);
+        $admin_id = $id;
+        $sections = [];
+        foreach(Admin::RELATIONS_FOR_CHECK as $relation){
+            try{
+                array_push($sections,[
+                    'relation_name' => $relation['relation_name'],
+                    'fa_name' => $relation['fa_name'],
+                    'replacements' => Admin::where('id','!=',$id)->permission($relation['permission_name'].'.read')->get(),
+                ]);
+            }catch(Exception $e){}
+        }
+        return view('admin.admin_list.transform',compact('sections','admin_id'));
+    }
+
+    /**
+     * Transform the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function transform(Request $request, $id)
+    {
+        $this->authorize('admin.transform');
+
+        $transforms = json_decode($request->transform_list);
+        $relations = array_keys(json_decode($request->transform_list,true));
+        $admin = Admin::with($relations)->findOrFail($id);
+        
+        foreach($transforms as $section => $transform){
+            foreach($admin[$section] as $section_item){
+                $section_item[Admin::RELATIONS_FOR_CHECK[$section]['foreign_key']] = $transform;
+                $section_item->save();
+            }
+        }
+
+        $admin->delete();
+
+        session()->flash('action_status', json_encode([
+            'type' => 'danger', 'icon' => "fad fa-pen", 'title' => '',
+            'message' => $admin->username.' با موفقیت حذف شد'
+        ]));
+
+        return response()->json(['success'=>true],422);
     }
 
     /**

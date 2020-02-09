@@ -27,6 +27,10 @@ class Admin extends Authenticatable
         'name', 'family', 'email', 'username', 'phone'
     ];
 
+    const RELATIONS_FOR_CHECK = [
+        //'blogs' => ["relation_name"=>'blogs', "permission_name"=>'blog', "fa_name"=>'مقالات', 'foreign_key'=>'admin_id']
+    ];
+
     /**
      * The attributes that should be hidden for arrays.
      *

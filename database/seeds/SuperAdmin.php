@@ -36,6 +36,7 @@ class SuperAdmin extends Seeder
             ['admin.add','افزودن ادمین'],
             ['admin.delete','حذف ادمین'],
             ['admin.disable','فعال/غیرفعال سازی ادمین'],
+            ['admin.transform','انتقال داده های ادمین'],
 
             ['role.browse','جستجو نقش'],
             ['role.read','مشاهده نقش'],

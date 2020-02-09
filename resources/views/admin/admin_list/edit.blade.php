@@ -108,6 +108,7 @@
 
     $('.btn_edit_confirm').click(function(){
         var name = $('.card-body input[name="name"]').val();
+        var family = $('.card-body input[name="family"]').val();
         var username = $('.card-body input[name="username"]').val();
         var email = $('.card-body input[name="email"]').val();
         var phone = $('.card-body input[name="phone"]').val();
@@ -120,6 +121,7 @@
         form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
         form_data.append('id',{{$admin_details->id}});
         form_data.append('name',name);
+        form_data.append('family',family);
         form_data.append('username',convertPersianNumbers(username));
         form_data.append('email',email);
         form_data.append('phone',convertPersianNumbers(phone));
@@ -136,11 +138,19 @@
                 if(response.success){
                     window.location.href = "{{url()->previous()}}";
                 }else{
-                    if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                    //if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                    notify_setting.type = 'danger';
+                    $.notify({
+                        icon: 'fad fa-info',
+                        title: '',
+                        message: response.error, 
+                    },notify_setting);
                 }
             },
             success: function(response){},
-            error: function(response){ Swal.fire({ title: response.responseText, type: "error", confirmButtonText: "خٌب" }); }
+            error: function(response){
+                //Swal.fire({ title: response.responseText, type: "error", confirmButtonText: "خٌب" });
+            }
         });
     });
 

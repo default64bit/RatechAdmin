@@ -57,7 +57,7 @@
                         <tbody>
                             <?php $i = ($admins->currentpage()-1) * $admins->perpage(); $i++; ?>
                             @foreach($admins as $admin_detail)
-                            <tr row-id="{{$admin_detail->id}}">
+                            <tr row-id="{{$admin_detail->id}}" has_relation="{{$admin_detail->has_relation}}" username="{{$admin_detail->username}}">
                                 <td>{{$i++}}</td>
                                 <td>{{$admin_detail->name.' '.$admin_detail->family}}</td>
                                 <td>{{$admin_detail->username}}</td>
@@ -149,39 +149,58 @@
     $('.btn_delete').click(function(){
         var record_id = $(this).attr('row-id');
         var elm = $('.dataTable tr[row-id="'+record_id+'"]');
+        var username = elm.attr('username');
+        var has_relation = elm.attr('has_relation');
+
+        var question = has_relation==1 ? `پیش از حذف ادمین ${username} لازم است اطلاعات ثبت شده توسط وی را به ادمین دیگری انتقال دهید.` : `آیا ${username} حذف شود؟`;
+        var confirmButtonText = has_relation==1 ? 'انتقال دسترسی' : 'بله';
+        var cancelButtonText = has_relation==1 ? 'لغو' : 'خیر';
         Swal.fire({
-            title: "", text: "ادمین انتخابی حذف شود؟", type: "question", showCancelButton: true, buttonsStyling: false,
-            confirmButtonClass: "btn btn-danger m-1", confirmButtonText: "بله",
-            cancelButtonClass: "btn btn-secondary m-1", cancelButtonText: "خیر"
+            title: "", text: question, type: "question", showCancelButton: true, buttonsStyling: false,
+            confirmButtonClass: "btn btn-danger m-1", confirmButtonText: confirmButtonText,
+            cancelButtonClass: "btn btn-secondary m-1", cancelButtonText: cancelButtonText
         }).then((result)=>{
             if(result.value){
-                load_screen(true);
-                $.ajax({
-                    url: "{{url('admin/admins')}}/"+record_id, type: "delete", cache: false, contentType: false, processData: false,
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    complete: function(response){
-                        load_screen(false);
-                        response = JSON.parse(response.responseText);
-                        if(response.success){
-                            table.row(elm).remove().draw();
-                            Swal.fire({title: '', text: "ادمین انتخابی حذف شد.", type: "success", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
-                        }else{
-                            Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
-                        }
-                    },
-                    success: function(data){},
-                    error: function(data){ Swal.fire({title: data.responseText, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false}); }
-                });
+                if(has_relation==1){
+                    window.location.href = "{{url('admin/admins')}}/"+record_id+"/transform";
+                }else{
+                    load_screen(true);
+                    $.ajax({
+                        url: "{{url('admin/admins')}}/"+record_id, type: "delete", cache: false, contentType: false, processData: false,
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        complete: function(response){
+                            load_screen(false);
+                            response = JSON.parse(response.responseText);
+                            if(response.success){
+                                table.row(elm).remove().draw();
+                                $.notify({
+                                    icon: 'fad fa-trash', title: '',
+                                    message: `${username} حذف شد`,
+                                },notify_setting);
+                            }else{
+                                notify_setting.type = 'danger';
+                                $.notify({
+                                    icon: 'fad fa-info', title: '',
+                                    message: response.error, 
+                                },notify_setting);
+                            }
+                        },
+                        success: function(data){},
+                    });
+                }
             }
         });
     });
 
     $('.btn_disable').click(function(){
         var btn = $(this);
+        var username = $(this).attr('username');
+        var status = $(this).attr('status');
         var record_id = $(this).attr('row-id');
         var elm = $('.dataTable tr[row-id="'+record_id+'"]');
+        var question = status==1 ? `آیا ادمین ${username} فعال شود؟` : `آیا ادمین ${username} غیرفعال شود؟`;
         Swal.fire({
-            title: "", text: "ادمین انتخابی "+btn.attr('data-original-title')+" شود؟", type: "question", showCancelButton: true, buttonsStyling: false,
+            title: "", text: question, type: "question", showCancelButton: true, buttonsStyling: false,
             confirmButtonClass: "btn btn-danger m-1", confirmButtonText: "بله",
             cancelButtonClass: "btn btn-secondary m-1", cancelButtonText: "خیر"
         }).then((result)=>{
@@ -198,12 +217,22 @@
                                 case 1:
                                     elm.children('td:nth-child('+(elm.children('td').length-1)+')').find('.badge[ban]').removeClass('badge-success').addClass('badge-danger').text('غیرفعال');
                                     btn.html('<i class="far fa-check"></i>');
-                                    Swal.fire({title: '', text: "ادمین انتخابی غیرفعال شد.", type: "success", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
+                                    btn.attr('status',1);
+                                    notify_setting.type = 'danger';
+                                    $.notify({
+                                        icon: 'fad fa-ban', title: '',
+                                        message: 'ادمین '+response.model.username+' غیرفعال شد',
+                                    },notify_setting);
                                     break;
                                 case 0:
                                     elm.children('td:nth-child('+(elm.children('td').length-1)+')').find('.badge[ban]').removeClass('badge-danger').addClass('badge-success').text('فعال');
                                     btn.html('<i class="far fa-ban"></i>');
-                                    Swal.fire({title: '', text: "ادمین انتخابی فعال شد.", type: "success", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
+                                    btn.attr('status',0);
+                                    notify_setting.type = 'success';
+                                    $.notify({
+                                        icon: 'fad fa-check', title: '',
+                                        message: 'ادمین '+response.model.username+' فعال شد',
+                                    },notify_setting);
                                     break;
                             }
                         }else{
@@ -211,7 +240,6 @@
                         }
                     },
                     success: function(data){},
-                    error: function(data){ Swal.fire({ title: data.responseText, type: "error", confirmButtonText: "خٌب" }); }
                 });
             }
         });

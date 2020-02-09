@@ -20,8 +20,12 @@ Route::group(['namespace'=>'AdminPanel','prefix'=>'admin'], function () {
         Route::post('/change_password', 'HomeController@change_password');
 
         Route::resources(['admins'=>'AdminsController']);
+        Route::post('admins/{id}/disable','AdminsController@disable');
+        Route::get('admins/{id}/transform','AdminsController@transform_page');
+        Route::post('admins/{id}/transform','AdminsController@transform');
+        
         Route::resources(['roles'=>'RolesController']);
-        Route::resources(['permissions'=>'PermissionsController']);
+        // Route::resources(['permissions'=>'PermissionsController']);
 
         //route insert head ->
         
