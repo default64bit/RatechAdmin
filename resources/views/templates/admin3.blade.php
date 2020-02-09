@@ -63,8 +63,8 @@
                             <div class="collapse {{$current_route=='/admin/admins'||$current_route=='/admin/roles'||$current_route=='/admin/permissions'?'show':''}}" id="navbar-admins">
                                 <ul class="nav nav-sm flex-column">
                                     @can('admin.browse') <li class="nav-item"><a href="<?=url('admin/admins')?>" class="nav-link {{$current_route=='/admin/admins'?'active':''}}"><i class="fad fa-user-shield text-yellow"></i> لیست ادمین ها</a></li> @endcan
-                                    @can('role.browse') <li class="nav-item"><a href="<?=url('admin/roles')?>" class="nav-link {{$current_route=='/admin/roles'?'active':''}}"><i class="fad fa-user-tag text-yellow"></i> تعریف نقش</a></li> @endcan
-                                    @can('permission.browse') <li class="nav-item"><a href="<?=url('admin/permissions')?>" class="nav-link {{$current_route=='/admin/permissions'?'active':''}}"><i class="fad fa-user-lock text-yellow"></i> تعریف دسترسی</a></li> @endcan
+                                    @can('role.browse') <li class="nav-item"><a href="<?=url('admin/roles')?>" class="nav-link {{$current_route=='/admin/roles'?'active':''}}"><i class="fad fa-user-tag text-yellow"></i> گروه بندی دسترسی</a></li> @endcan
+                                    @can('permission.browse') <!-- <li class="nav-item"><a href="<?=url('admin/permissions')?>" class="nav-link {{$current_route=='/admin/permissions'?'active':''}}"><i class="fad fa-user-lock text-yellow"></i> تعریف دسترسی</a></li> --> @endcan
                                 </ul>
                             </div>
                         </li>

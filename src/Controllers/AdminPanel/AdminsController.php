@@ -49,8 +49,9 @@ class AdminsController extends Controller
             'email'=>$request->email,
             'password'=>bcrypt($request->password),
         ]);
-        $roles = explode(',',$request->admin_roles);
-        $admin->assignRole($roles);
+        // $roles = explode(',',$request->admin_roles);
+        $role = $request->admin_role;
+        $admin->assignRole($role);
 
         session()->flash('action_status', json_encode([
             'type' => 'success', 'icon' => "fad fa-plus",
@@ -82,8 +83,9 @@ class AdminsController extends Controller
         $this->authorize('admin.edit');
         $admin = Admin::findOrFail($id);
         $roles = Role::select('id','name')->where('name','!=','SuperAdmin')->get();
+        $admin_role = $admin->roles()->select('id','name')->first();
         $admin_roles = $admin->roles()->select('id','name')->get();
-        return view('admin.admin_list.edit',['admin_details'=>$admin,'roles'=>$roles,'admin_roles'=>$admin_roles]);
+        return view('admin.admin_list.edit',['admin_details'=>$admin,'roles'=>$roles,'admin_roles'=>$admin_roles,'admin_role'=>$admin_role]);
     }
 
     /**
@@ -111,8 +113,9 @@ class AdminsController extends Controller
         foreach($admin_roles as $role){
             $admin->removeRole($role->name);
         }
-        $roles = explode(',',$request->admin_roles);
-        $admin->assignRole($roles);
+        // $roles = explode(',',$request->admin_roles);
+        $role = $request->admin_role;
+        $admin->assignRole($role);
 
         session()->flash('action_status', json_encode([
             'type' => 'info', 'icon' => "fad fa-pen",
@@ -120,6 +123,20 @@ class AdminsController extends Controller
         ]));
 
         return response(['success'=>true]);
+    }
+
+    /**
+     * Disable the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function disable($id)
+    {
+        $this->authorize('admin.disable');
+        $admin = Admin::findOrFail($id);
+        $admin->update(['disable'=>$admin->disable?0:1]);
+        return response(['success'=>true,'state'=>$admin->disable]);
     }
 
     /**

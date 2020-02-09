@@ -1,7 +1,7 @@
 @extends('templates.admin3')
 
 @section('title')
-ویرایش نقش
+ویرایش گروه بندی دسترسی
 @endsection
 
 @section('css')
@@ -13,14 +13,14 @@
 
 @section('content')
 <div class="header">
-    <h6 class="h2 mb-0 mt-3">ویرایش نقش</h6>
+    <h6 class="h2 mb-0 mt-3">ویرایش گروه بندی دسترسی</h6>
     <div class="header-body">
         <div class="col-12 py-4">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                 <ol class="breadcrumb breadcrumb-links">
                     <li class="breadcrumb-item"><a href="{{url('/admin')}}"><i class="fas fa-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/admin/roles')}}">لیست نقش ها</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">ویرایش نقش</li>
+                    <li class="breadcrumb-item"><a href="{{url('/admin/roles')}}">لیست گروه بندی دسترسی ها</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">ویرایش گروه بندی دسترسی</li>
                 </ol>
             </nav>
         </div>
@@ -30,7 +30,7 @@
     <div class="card-body">
         <div class="form-row">
             <div class="col-12">
-                <label class="form-control-label">نام</label>
+                <label class="form-control-label">عنوان</label>
                 <input type="text" class="form-control" name="name" placeholder="" value="{{$role->name}}">
             </div>
         </div>
@@ -91,29 +91,27 @@
         });
         permissions = permissions.toString();
         
-        if(permissions !="" && name !=""){
-            form_data.append('_method','PUT');
-            form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
-            form_data.append('id',{{$role->id}});
-            form_data.append('permissions',permissions);
-            form_data.append('name',name);
-            load_screen(true);
-            $.ajax({
-                url: "{{url('admin/roles/'.$role->id)}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                complete: function(response){
-                    load_screen(false);
-                    response = JSON.parse(response.responseText);
-                    if(response.success){
-                        window.location.href = "{{url()->previous()}}";
-                    }else{
-                        if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
-                    }
-                },
-                success: function(response){},
-                error: function(response){ Swal.fire({ title: response.responseText, type: "error", confirmButtonText: "خٌب" }); }
-            });
-        }
+        form_data.append('_method','PUT');
+        form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
+        form_data.append('id',{{$role->id}});
+        form_data.append('permissions',permissions);
+        form_data.append('name',name);
+        load_screen(true);
+        $.ajax({
+            url: "{{url('admin/roles/'.$role->id)}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            complete: function(response){
+                load_screen(false);
+                response = JSON.parse(response.responseText);
+                if(response.success){
+                    window.location.href = "{{url()->previous()}}";
+                }else{
+                    if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                }
+            },
+            success: function(response){},
+            error: function(response){ Swal.fire({ title: response.responseText, type: "error", confirmButtonText: "خٌب" }); }
+        });
     });
 
 </script>

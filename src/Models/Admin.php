@@ -6,6 +6,7 @@ use App\Notifications\AdminResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Morilog\Jalali\Jalalian;
 
 class Admin extends Authenticatable
 {
@@ -19,7 +20,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar_image', 'username',
+        'name', 'family', 'email', 'password', 'phone', 'avatar_image', 'username', 'disable'
     ];
 
     /**
@@ -30,6 +31,10 @@ class Admin extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getCreatedAtAttribute($value){
+        return Jalalian::forge($value)->format('%Y/%m/%d H:i');
+    }
 
     /**
      * Send the password reset notification.

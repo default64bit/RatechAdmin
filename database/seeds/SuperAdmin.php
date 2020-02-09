@@ -15,9 +15,11 @@ class SuperAdmin extends Seeder
     public function run()
     {
         $admin = Admin::create([
-            'name'=>'kasra keshvardoost',
+            'name'=>'kasra',
+            'family'=>'keshvardoost',
             'username'=>'kasra',
             'email'=>'kasrakeshvardoost@gmail.com',
+            'phone'=>'09123456789',
             'password'=>bcrypt('12345678'),
         ]);
 
@@ -33,18 +35,13 @@ class SuperAdmin extends Seeder
             ['admin.edit','ویرایش ادمین'],
             ['admin.add','افزودن ادمین'],
             ['admin.delete','حذف ادمین'],
+            ['admin.disable','فعال/غیرفعال سازی ادمین'],
 
             ['role.browse','جستجو نقش'],
             ['role.read','مشاهده نقش'],
             ['role.edit','ویرایش نقش'],
             ['role.add','افزودن نقش'],
             ['role.delete','حذف نقش'],
-
-            ['permission.browse','جستجو دسترسی'],
-            ['permission.read','مشاهده دسترسی'],
-            ['permission.edit','ویرایش دسترسی'],
-            ['permission.add','افزودن دسترسی'],
-            ['permission.delete','حذف دسترسی'],
 
             ['panel_settings.browse','جستجو تنظیمات پنل'],
             ['panel_settings.read','مشاهده تنظیمات پنل'],

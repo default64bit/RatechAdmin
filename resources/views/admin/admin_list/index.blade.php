@@ -46,10 +46,12 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>ردیف</th>
-                                <th>نام</th>
+                                <th>نام و نام خانوادگی</th>
                                 <th>نام کاربری</th>
+                                <th>سطح دسترسی</th>
                                 <th>زمان ثبت</th>
-                                <th>...</th>
+                                <th>وضعیت</th>
+                                <th>عملیات</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,12 +59,21 @@
                             @foreach($admins as $admin_detail)
                             <tr row-id="{{$admin_detail->id}}">
                                 <td>{{$i++}}</td>
-                                <td>{{$admin_detail->name}}</td>
+                                <td>{{$admin_detail->name.' '.$admin_detail->family}}</td>
                                 <td>{{$admin_detail->username}}</td>
+                                <td>{{$admin_detail->roles[0]->name}}</td>
                                 <td>{{$admin_detail->created_at}}</td>
+                                <td>
+                                    @if($admin_detail->disable == 0)
+                                        <span class="badge badge-pill badge-success" ban>فعال</span>
+                                    @else
+                                        <span class="badge badge-pill badge-danger" ban>غیرفعال</span>
+                                    @endif
+                                </td>
                                 <td>
                                     @can('admin.edit') <a class="table-action text-info" data-toggle="tooltip" data-original-title="ویرایش" href="{{url('admin/admins/'.$admin_detail->id.'/edit')}}"><i class="far fa-edit"></i></a> @endcan
                                     @can('admin.delete') <a class="table-action btn_delete text-danger" data-toggle="tooltip" data-original-title="حذف" row-id="{{$admin_detail->id}}"><i class="far fa-trash-alt"></i></a> @endcan
+                                    @can('admin.disable') <a class="table-action btn_disable text-warning" data-toggle="tooltip" data-original-title="فعال سازی و غیر فعال سازی" row-id="{{$admin_detail->id}}"><i class="far fa-ban"></i></a> @endcan
                                 </td>
                             </tr>
                             @endforeach
@@ -71,7 +82,11 @@
                 </div>
             </div>
             <div class="col-12">
-                {{$admins->links()}}
+                @if(isset($search) && !empty($search))
+                    {{$admins->appends(['search'=>$search])->links()}}
+                @else
+                    {{$admins->links()}}
+                @endif
             </div>
         </div>
     </div>
@@ -114,7 +129,7 @@
         columnDefs: [{
             targets: 'no-sort', orderable: false
         }],
-        "order": [[0, "desc"]],
+        // "order": [[0, "desc"]],
         "language": {
             "infoEmpty": "",
             "info": "نمایش _START_ تا _END_ ردیف (از _TOTAL_ رکورد)",
@@ -152,6 +167,47 @@
                     },
                     success: function(data){},
                     error: function(data){ Swal.fire({title: data.responseText, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false}); }
+                });
+            }
+        });
+    });
+
+    $('.btn_disable').click(function(){
+        var btn = $(this);
+        var record_id = $(this).attr('row-id');
+        var elm = $('.dataTable tr[row-id="'+record_id+'"]');
+        Swal.fire({
+            title: "", text: "ادمین انتخابی "+btn.attr('data-original-title')+" شود؟", type: "question", showCancelButton: true, buttonsStyling: false,
+            confirmButtonClass: "btn btn-danger m-1", confirmButtonText: "بله",
+            cancelButtonClass: "btn btn-secondary m-1", cancelButtonText: "خیر"
+        }).then((result)=>{
+            if(result.value){
+                load_screen(true);
+                $.ajax({
+                    url: "{{url('admin/admins')}}/"+record_id+"/disable", type: "post", dataType: "json", cache: false, contentType: false, processData: false,
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    complete: function(response){
+                        load_screen(false);
+                        response = JSON.parse(response.responseText);
+                        if(response.success){
+                            switch(response.state){
+                                case 1:
+                                    elm.children('td:nth-child('+(elm.children('td').length-1)+')').find('.badge[ban]').removeClass('badge-success').addClass('badge-danger').text('غیرفعال');
+                                    btn.html('<i class="far fa-check"></i>');
+                                    Swal.fire({title: '', text: "ادمین انتخابی غیرفعال شد.", type: "success", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
+                                    break;
+                                case 0:
+                                    elm.children('td:nth-child('+(elm.children('td').length-1)+')').find('.badge[ban]').removeClass('badge-danger').addClass('badge-success').text('فعال');
+                                    btn.html('<i class="far fa-ban"></i>');
+                                    Swal.fire({title: '', text: "ادمین انتخابی فعال شد.", type: "success", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
+                                    break;
+                            }
+                        }else{
+                            Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
+                        }
+                    },
+                    success: function(data){},
+                    error: function(data){ Swal.fire({ title: data.responseText, type: "error", confirmButtonText: "خٌب" }); }
                 });
             }
         });

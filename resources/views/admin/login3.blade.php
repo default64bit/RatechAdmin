@@ -13,12 +13,12 @@
                     <form class="form-horizontal form-info" role="form" method="POST" action="{{ url('/admin/login') }}">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="email" class="control-label">ایمیل</label>
+                            <label for="email" class="control-label">ایمیل یا نام کاربری</label>
                             <div class="input-group input-group-merge input-group-alternative">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fad fa-envelope"></i></span>
                                 </div>
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" autofocus>
+                                <input id="email" type="text" class="form-control" name="username" value="{{ old('username') }}" autofocus>
                             </div>
                             @if($errors->has('email'))
                             <strong class="alert p-2 alert-danger"><i class="fad fa-exclamation-circle"></i> {{$errors->first('email')}}</strong>

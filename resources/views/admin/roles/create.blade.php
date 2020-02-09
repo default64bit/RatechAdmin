@@ -1,7 +1,7 @@
 @extends('templates.admin3')
 
 @section('title')
-نقش جدید
+گروه بندی دسترسی جدید
 @endsection
 
 @section('css')
@@ -10,14 +10,14 @@
 
 @section('content')
 <div class="header">
-    <h6 class="h2 mb-0 mt-3">نقش جدید</h6>
+    <h6 class="h2 mb-0 mt-3">گروه بندی دسترسی جدید</h6>
     <div class="header-body">
         <div class="col-12 py-4">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                 <ol class="breadcrumb breadcrumb-links">
                     <li class="breadcrumb-item"><a href="{{url('/admin')}}"><i class="fas fa-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{url('/admin/roles')}}">لیست نقش ها</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">نقش جدید</li>
+                    <li class="breadcrumb-item"><a href="{{url('/admin/roles')}}">لیست گروه بندی دسترسی ها</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">گروه بندی دسترسی جدید</li>
                 </ol>
             </nav>
         </div>
@@ -27,7 +27,7 @@
     <div class="card-body">
         <div class="form-row">
             <div class="col-12">
-                <label class="form-control-label">نام</label>
+                <label class="form-control-label">عنوان</label>
                 <input type="text" class="form-control" name="name" placeholder="">
             </div>
         </div>
@@ -80,26 +80,24 @@
         });
         permissions = permissions.toString();
         
-        if(name !="" && permissions !=""){
-            form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
-            form_data.append('name',name);
-            form_data.append('permissions',permissions);
-            load_screen(true);
-            $.ajax({
-                url: "{{url('admin/roles')}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,
-                complete: function(response){
-                    load_screen(false);
-                    response = JSON.parse(response.responseText);
-                    if(response.success){
-                        window.location.href = "{{url()->previous()}}";
-                    }else{
-                        if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
-                    }
-                },
-                success: function(data){},
-                error: function(data){ Swal.fire({ title: data.responseText, type: "error", confirmButtonText: "خٌب" }); }
-            });
-        }
+        form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
+        form_data.append('name',name);
+        form_data.append('permissions',permissions);
+        load_screen(true);
+        $.ajax({
+            url: "{{url('admin/roles')}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,
+            complete: function(response){
+                load_screen(false);
+                response = JSON.parse(response.responseText);
+                if(response.success){
+                    window.location.href = "{{url()->previous()}}";
+                }else{
+                    if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                }
+            },
+            success: function(data){},
+            error: function(data){ Swal.fire({ title: data.responseText, type: "error", confirmButtonText: "خٌب" }); }
+        });
     });
 
 </script>

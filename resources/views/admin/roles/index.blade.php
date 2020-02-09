@@ -1,7 +1,7 @@
 @extends('templates.admin3')
 
 @section('title')
-لیست نقش ها
+لیست گروه بندی دسترسی ها
 @endsection
 
 @section('css')
@@ -18,7 +18,7 @@
 
 @section('content')
 <div class="header">
-    <h6 class="h2 mb-0 mt-3">لیست نقش ها</h6>
+    <h6 class="h2 mb-0 mt-3">لیست گروه بندی دسترسی ها</h6>
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
@@ -26,7 +26,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links">
                             <li class="breadcrumb-item"><a href="{{url('/admin')}}"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">لیست نقش ها</li>
+                            <li class="breadcrumb-item active" aria-current="page">لیست گروه بندی دسترسی ها</li>
                         </ol>
                     </nav>
                 </div>
@@ -39,7 +39,7 @@
         <div class="card-body py-0 px-3">
             <div class="col-12 p-0 py-3 d-flex align-items-center justify-content-between">
                 @can('role.add')
-                <a class="btn_add btn btn-success" href="{{url('admin/roles/create')}}"><i class="far fa-plus"></i> نقش جدید </a>
+                <a class="btn_add btn btn-success" href="{{url('admin/roles/create')}}"><i class="far fa-plus"></i> گروه بندی دسترسی جدید </a>
                 @endcan
             </div>
             <div class="table-responsive">
@@ -48,7 +48,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>ردیف</th>
-                                <th>نقش</th>
+                                <th>سطح دسترسی</th>
                                 <th>زمان ثبت</th>
                                 <th>...</th>
                             </tr>
@@ -123,14 +123,14 @@
     $('#key-search').on('keyup', function () {
         table.search(this.value).draw();
     });
-    $('.navbar-search input').attr('placeholder','جستجو نقش ها');
+    $('.navbar-search input').attr('placeholder','جستجو گروه بندی دسترسی ها');
     @cannot('role.browse') $('.navbar-search').remove(); @endcannot
 
     $('.btn_delete').click(function(){
         var record_id = $(this).attr('row-id');
         var elm = $('.dataTable tr[row-id="'+record_id+'"]');
         Swal.fire({
-            title: "", text: "نقش انتخابی حذف شود؟", type: "warning", showCancelButton: true, buttonsStyling: false,
+            title: "", text: "گروه بندی دسترسی انتخابی حذف شود؟", type: "warning", showCancelButton: true, buttonsStyling: false,
             confirmButtonClass: "btn btn-danger m-1", confirmButtonText: "بله",
             cancelButtonClass: "btn btn-secondary m-1", cancelButtonText: "خیر"
         }).then((result)=>{
@@ -144,7 +144,7 @@
                         response = JSON.parse(response.responseText);
                         if(response.success){
                             table.row(elm).remove().draw();
-                            Swal.fire({title: '', text: "نقش انتخابی حذف شد.", type: "success", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
+                            Swal.fire({title: '', text: "گروه بندی دسترسی انتخابی حذف شد.", type: "success", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
                         }else{
                             Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
                         }

@@ -31,38 +31,51 @@
     <div class="card-body">
         <div class="form-row mb-3">
             <div class="col-md-6">
-                <label class="form-control-label">نام</label>
+                <label class="form-control-label">نام <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
                 <input type="text" class="form-control form-control-alternative" name="name" placeholder="">
             </div>
             <div class="col-md-6">
-                <label class="form-control-label">نام کاربری</label>
+                <label class="form-control-label">نام خانوادگی <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
+                <input type="text" class="form-control form-control-alternative" name="family" placeholder="">
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col-md-6">
+                <label class="form-control-label">موبایل <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
+                <input type="text" class="form-control form-control-alternative" name="phone" placeholder="">
+            </div>
+            <div class="col-md-6">
+                <label class="form-control-label">ایمیل <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
+                <input type="text" class="form-control form-control-alternative" name="email" placeholder="example@example.com">
+            </div>
+        </div>
+        <div class="form-row mb-3">
+            <div class="col-md-6">
+                <label class="form-control-label">نام کاربری <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
                 <input type="text" class="form-control form-control-alternative" name="username" placeholder="">
             </div>
-        </div>
-        <div class="form-row mb-3">
-            <div class="col-12">
-                <label class="form-control-label">ایمیل</label>
-                <input type="text" class="form-control form-control-alternative" name="email" placeholder="">
+            <div class="col-md-6">
+                <label class="form-control-label">سطح دسترسی <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
+                <select class="form-control form-control-alternative" name="admin_role" tabindex="-1" aria-hidden="true">
+                    <option value="" selected>یک گزینه را انتخاب کنید</option>
+                    @foreach($roles as $role)
+                        <option value="{{$role->name}}">{{$role->name}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="form-row mb-3">
             <div class="col-6">
-                <label class="form-control-label">رمزعبور</label>
-                <input type="password" class="form-control form-control-alternative" name="password" placeholder="">
+                <label class="form-control-label">رمزعبور <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
+                <input type="password" class="form-control form-control-alternative" name="password" placeholder="حد اقل ۸ کاراکتر باید باشد">
                 <span class="password_visiable_btn"><i class="fad fa-eye"></i></span>
             </div>
             <div class="col-6">
-                <label class="form-control-label">تکرار رمزعبور</label>
-                <input type="password" class="form-control form-control-alternative" name="password_confirmation" placeholder="">
+                <label class="form-control-label">تکرار رمزعبور <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
+                <input type="password" class="form-control form-control-alternative" name="password_confirmation" placeholder="حد اقل ۸ کاراکتر باید باشد">
                 <span class="password_visiable_btn"><i class="fad fa-eye"></i></span>
             </div>
         </div>
-        <label class="form-control-label">دسترسی ادمین</label>
-        <select class="form-control form-control-alternative" name="admin_roles" multiple="" tabindex="-1" aria-hidden="true">
-            @foreach($roles as $role)
-                <option value="{{$role->name}}">{{$role->name}}</option>
-            @endforeach
-        </select>
     </div>
     <div class="card-footer">
         <button class="btn btn-success btn-air btn_add_confirm font-20" type="button">افزودن <i class="fas fa-plus"></i></button>
@@ -76,7 +89,7 @@
 <script>
     $('.navbar-search').remove();
 
-    $('select[name="admin_roles"]').select2({dir:'rtl'});
+    // $('select[name="admin_roles"]').select2({dir:'rtl'});
 
     var form_data = new FormData();
 
@@ -84,19 +97,21 @@
         var name = $('.card-body input[name="name"]').val();
         var username = $('.card-body input[name="username"]').val();
         var email = $('.card-body input[name="email"]').val();
+        var phone = $('.card-body input[name="phone"]').val();
         var password = $('.card-body input[name="password"]').val();
         var password_confirmation = $('.card-body input[name="password_confirmation"]').val();
-        var admin_roles = $('select[name="admin_roles"]').val();
-        admin_roles = admin_roles.toString();
+        var admin_role = $('select[name="admin_role"]').val();
+        // admin_roles = admin_roles.toString();
         
         if(name !="" && username !="" && email !="" && password !="" && admin_roles !=""){
             form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
             form_data.append('name',name);
-            form_data.append('username',username);
+            form_data.append('username',convertPersianNumbers(username));
             form_data.append('email',email);
-            form_data.append('password',password);
-            form_data.append('password_confirmation',password_confirmation);
-            form_data.append('admin_roles',admin_roles);
+            form_data.append('phone',convertPersianNumbers(phone));
+            form_data.append('password',convertPersianNumbers(password));
+            form_data.append('password_confirmation',convertPersianNumbers(password_confirmation));
+            form_data.append('admin_role',admin_role);
             load_screen(true);
             $.ajax({
                 url: "{{url('admin/admins')}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,

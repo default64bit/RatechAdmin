@@ -34,17 +34,19 @@ class AdminsRequest extends FormRequest
                 return [
                     'name' => 'required|max:255',
                     'username' => 'required|unique:admins|max:255',
-                    'email' => 'required|email|max:255|unique:admins',
+                    'email' => 'required|email|max:255|unique:admins,email',
+                    'phone' => 'required|numeric|regex:/^(0)(9){1}[0-9]{9}+$/|max:255|unique:admins,phone',
                     'password' => 'required|confirmed|min:8',
-                    'admin_roles' => 'required',
+                    'admin_role' => 'required',
                 ]; break;
             case 'PUT':
                 return [
                     'name' => 'required|max:255',
                     'username' => 'required|max:255|unique:admins,username,'.$this->id,
                     'email' => 'required|email|max:255|unique:admins,email,'.$this->id,
+                    'phone' => 'required|numeric|regex:/^(0)(9){1}[0-9]{9}+$/|max:255|unique:admins,phone,'.$this->id,
                     'password' => 'nullable|confirmed|min:8',
-                    'admin_roles' => 'required',
+                    'admin_role' => 'required',
                 ]; break;
         }
     }
