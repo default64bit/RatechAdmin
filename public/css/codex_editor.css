@@ -1,0 +1,46 @@
+.ce-toolbar__content,.ce-block__content{
+    width: calc(100% - 100px);
+    max-width: initial;
+}
+.ce-toolbar__settings-btn{
+    display: flex; justify-content: center; align-items: center;
+}
+.ce-toolbar__plus{
+    position: relative; float: left;
+}
+.ce-inline-toolbar{
+    left: initial; right: 0;
+}
+.ce-inline-toolbar.ce-inline-toolbar--showed{
+    right: initial;
+}
+.ce-toolbox{
+    left: 0;
+}
+.ce-toolbar__plus{
+    width: 20px; height: 20px;
+}
+.ce-settings__button{
+    width: 20px; height: 20px;
+}
+.ce-inline-tool{
+    width: 20px;
+}
+.ce-block b{
+    font-weight: bold;
+}
+
+.ce-inline-toolbar--right-oriented.ce-inline-toolbar--showed{
+    right: auto;
+}
+.icon.icon--toggler-down{
+    height: fit-content;
+}
+
+.ce-header{ font-weight: bold; }
+h1.ce-header{ font-size: 2.5rem; }
+h2.ce-header{ font-size: 2rem; }
+h3.ce-header{ font-size: 1.5rem; }
+h4.ce-header{ font-size: 1.25rem; }
+h5.ce-header{ font-size: 1rem; }
+h6.ce-header{ font-size: .75rem; }

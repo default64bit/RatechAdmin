@@ -1,0 +1,75 @@
+#toolbar-container .ql-font span[data-label="Vazir"]::before {
+    font-family: "Vazir";
+}
+
+#toolbar-container .ql-font span[data-label="iryekan"]::before {
+    font-family: "iryekan";
+}
+
+#toolbar-container .ql-font span[data-label="iryekanNumbers"]::before {
+    font-family: "iryekanNumbers";
+}
+
+#toolbar-container .ql-font span[data-label="yekan"]::before {
+    font-family: "yekan";
+}
+
+#toolbar-container .ql-font span[data-label="Roboto"]::before {
+    font-family: "Roboto";
+}
+/* Set content font-families */
+
+.ql-font-Vazir {
+    font-family: "Vazir";
+}
+
+.ql-font-iryekan {
+    font-family: "iryekan";
+}
+
+.ql-font-iryekanNumbers {
+    font-family: "iryekanNumbers";
+}
+
+.ql-font-yekan {
+    font-family: "yekan";
+}
+
+.ql-font-Roboto {
+    font-family: "Roboto";
+}
+
+/* ========================================================== */
+
+.ql-picker-label{
+    outline: none !important;
+    border: 0 !important;
+}
+.ql-snow .ql-picker.ql-size{
+    width: auto; margin: 0 10px;
+}
+.ql-snow .ql-formats{
+    text-align: center;
+}
+.ql-editor p{
+    font-family: "iryekanNumbers" !important;
+}
+.ql-snow .ql-tooltip a.ql-action::after,.ql-tooltip.ql-editing .ql-action::before{
+    margin-right: 16px !important;
+}
+.ql-toolbar.ql-snow + .ql-container.ql-snow{
+    border: 1px solid #ccc;
+}
+.ql-toolbar{background-color: white;}
+.ql-editor{
+    border: 0 !important; background-color: white;
+}
+.ql-editor strong{
+    font-weight: bold !important;
+}
+.ql-snow .ql-tooltip{
+    right: -3rem; left: auto !important;
+}
+svg{
+    vertical-align: initial !important;
+}

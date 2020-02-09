@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Notifications\AdminResetPassword;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +21,10 @@ class Admin extends Authenticatable
      */
     protected $fillable = [
         'name', 'family', 'email', 'password', 'phone', 'avatar_image', 'username', 'disable'
+    ];
+
+    const SEARCHABLE = [
+        'name', 'family', 'email', 'username', 'phone'
     ];
 
     /**

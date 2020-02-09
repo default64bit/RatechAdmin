@@ -39,14 +39,17 @@ class RatechAdminServiceProvider extends ServiceProvider
             __DIR__.'/Controllers' => app_path('Http/Controllers'),
             __DIR__.'/Middlewares' => app_path('Http/Middleware'),
             __DIR__.'/Requests' => app_path('Http/Requests'),
-            __DIR__.'/Models' => app_path('/'),
+            __DIR__.'/Models' => app_path('/Models'),
+            __DIR__.'/Helpers' => app_path('/Helpers'),
+
+            __DIR__.'/../public' => public_path('/'),
 
             __DIR__.'/../database/migrations' => database_path('migrations'),
             __DIR__.'/../database/seeds' => database_path('seeds'),
 
             __DIR__.'/../resources/views' => resource_path('views'),
-
-            __DIR__.'/../storage' => storage_path('/'),
+            
+            __DIR__.'/../storage/app' => storage_path('/app'),
         ]);
     }
 }

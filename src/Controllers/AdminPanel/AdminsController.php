@@ -4,7 +4,7 @@ namespace App\Http\Controllers\AdminPanel;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Admin;
+use App\Models\Admin;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\AdminPanel\AdminsRequest;
 
@@ -18,7 +18,12 @@ class AdminsController extends Controller
     public function index()
     {
         $this->authorize('admin.read');
-        $admins = Admin::where('id','!=',1)->latest()->paginate(20);
+        $admins = Admin::with('roles')->where('id','!=',1)->latest();
+        if($request->has('search')){
+            $search = $request->search;
+            $admins = ModelHelper::search($admins,Admin::SEARCHABLE,$search);
+        }
+        $admins = $admins->paginate(20);
         return view('admin.admin_list.index',compact('admins'));
     }
 

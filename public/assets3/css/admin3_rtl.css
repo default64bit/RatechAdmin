@@ -1,0 +1,84 @@
+/* .navbar-vertical.navbar-expand-xs.fixed-left{
+    left: initial; right: 0;
+} */
+
+.rtl{
+    direction: rtl; text-align: right;
+}
+
+.rtl .navbar-vertical .navbar-nav .nav-link[data-toggle=collapse]:after{ content: '\f104'; margin-left: initial; margin-right: auto; }
+.rtl .navbar-vertical .navbar-nav .nav-link[data-toggle=collapse][aria-expanded=true]:after{ transform: rotate(-90deg); }
+.rtl .navbar-vertical.navbar-expand-xs .navbar-nav .nav .nav-link{
+    padding-right: 2.1rem; padding-left: 0.5rem;
+}
+
+
+.navbar-nav{ padding-left: initial; padding-right: 0; }
+.navbar-vertical.navbar-expand-xs.fixed-left+.main-content{ margin-left: initial; margin-right: 62px; }
+.navbar-vertical .navbar-nav .nav-link.active>i{
+    margin-right: -.45rem !important;
+    text-align: right;
+}
+.navbar-vertical.navbar-expand-xs .navbar-nav>.nav-item>.nav-link.active{
+    margin-left: 0px; margin-right: .5rem; border-radius: 0px 1.375rem 1.375rem 0;
+}
+.navbar-dark .navbar-nav .active>.nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show>.nav-link{
+    margin: 0 10px 0 0; border-radius: 0 1.3rem 1.3em 0;
+}
+
+.btn:not(:last-child) {
+    margin-left: .5rem; margin-right: 0;
+}
+
+.dropdown-item{
+    text-align: right;
+}
+.dropdown-menu{text-align: right;}
+.dropdown-menu .dropdown-item>i{ margin-left: 1rem; margin-right: initial; }
+
+.g-navbar-search-show .navbar-search .close{
+    left: 0; right: initial;
+}
+
+.breadcrumb-item+.breadcrumb-item{
+    padding: 0; padding-right: .5rem;
+}
+.breadcrumb-item+.breadcrumb-item::before{
+    padding: 0; padding-left: .5rem;
+}
+
+
+.input-group>.input-group-append:last-child>.btn:not(:last-child):not(.dropdown-toggle), .input-group>.input-group-append:last-child>.input-group-text:not(:last-child), .input-group>.input-group-append:not(:last-child)>.btn, .input-group>.input-group-append:not(:last-child)>.input-group-text, .input-group>.input-group-prepend>.btn, .input-group>.input-group-prepend>.input-group-text{
+    border-radius: .25rem; border-top-left-radius: 0; border-bottom-left-radius: 0;
+}
+.input-group-prepend .input-group-text{
+    border-right: 1px solid #dee2e6; border-left: 0;
+}
+.input-group>.custom-select:not(:first-child), .input-group>.form-control:not(:first-child){
+    border-radius: .25rem; border-top-right-radius: 0; border-bottom-right-radius: 0;
+}
+.input-group-merge .form-control:not(:first-child){
+    border-left: 1px solid #dee2e6; border-right: 0; padding-right: 0;
+}
+
+.custom-control{ padding-left: 0 !important; padding-right: 1.75rem !important; }
+.custom-control-label::before,.custom-control-label::after{ left: initial; right: -1.40rem; }
+
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg{
+    right: initial !important;
+}
+.ql-toolbar.ql-snow .ql-formats{
+    margin-right: 0; padding: 2px;
+}
+
+.bootstrap-tagsinput [data-role=remove]{
+    margin: 0; margin-right: 10px;
+}
+
+.password_visiable_btn{
+    right: initial; left: 15px;
+}
+
+@media (max-width: 1199.98px){
+    .sidenav{ transform: translateX(0) !important; }
+}

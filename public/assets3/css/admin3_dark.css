@@ -1,0 +1,13 @@
+.navbar-dark{
+    border-color: rgba(255,255,255,.1) !important;
+    background-color: transparent !important;
+    color: #eee !important;
+}
+
+.sidenav{ background: #333 !important; }
+.sidenav a{ color: #eee !important; }
+.sidenav-header h1{ color: #eee !important; }
+
+.navbar-vertical.navbar-expand-xs .navbar-nav>.nav-item>.nav-link.active{
+    background: #eee !important; color: #333 !important;
+}

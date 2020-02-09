@@ -100,7 +100,7 @@
                         </div>
 
                         <!-- Search form -->
-                        <form class="navbar-search navbar-search-dark form-inline {{App::isLocale('fa')?'mr-sm-3':'ml-sm-3'}}" id="navbar-search-main">
+                        <div class="navbar-search navbar-search-dark form-inline {{App::isLocale('fa')?'mr-sm-3':'ml-sm-3'}}" id="navbar-search-main">
                             <div class="form-group mb-0">
                                 <div class="input-group input-group-alternative input-group-merge">
                                     <div class="input-group-prepend">
@@ -112,7 +112,7 @@
                             <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
                                 <span aria-hidden="true"><i class="fad fa-times-circle"></i></span>
                             </button>
-                        </form>
+                        </div>
 
                         <!-- Navbar links -->
                         <ul class="navbar-nav align-items-center ml-md-auto">
@@ -244,6 +244,17 @@
                 if($(window).width() <= 1200){
                     $('body').removeClass('g-sidenav-pinned').removeClass('g-sidenav-show').addClass('g-sidenav-hidden');
                 }else{$('body').removeClass('g-sidenav-hidden');}
+            });
+
+            $('#navbar-search-main input').keyup(function(e){
+                if(e.keyCode == 13){
+                    e.preventDefault();
+                    var search_query = $(this).val();
+                    if(search_query !=""){
+                        var url = window.location.href+'?';
+                        window.location.href = url.slice(0,url.indexOf('?'))+'?search='+search_query;
+                    }
+                }
             });
         </script>
     </body>

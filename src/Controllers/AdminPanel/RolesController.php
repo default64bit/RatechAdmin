@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\App;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AdminPanel\RolesRequest;
-use App\Admin;
+use App\Models\Admin;
 
 class RolesController extends Controller
 {
