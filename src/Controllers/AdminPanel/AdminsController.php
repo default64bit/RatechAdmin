@@ -24,6 +24,16 @@ class AdminsController extends Controller
             $search = $request->search;
             $admins = ModelHelper::search($admins,Admin::SEARCHABLE,$search);
         }
+        if($request->has('role_filter') && $request->role_filter != ''){
+            $role_filter = $request->role_filter;
+            $admins = $admins->whereHas('roles',function(Builder $query) use ($role_filter){
+                $query->where('name',$role_filter);
+            });
+        }
+        if($request->has('status_filter') && $request->status_filter != ''){
+            $status_filter = $request->status_filter;
+            $admins = $admins->where('disable',$status_filter);
+        }
         $admins = $admins->paginate(20);
 
         $relations = Admin::RELATIONS_FOR_CHECK;
@@ -35,7 +45,9 @@ class AdminsController extends Controller
             }
         }
 
-        return view('admin.admin_list.index',compact('admins'));
+        $roles = DB::table('roles')->where('guard_name','admin')->get();
+
+        return view('admin.admin_list.index',compact('admins','roles','role_filter','status_filter','search'));
     }
 
     /**

@@ -41,6 +41,13 @@
                 @can('role.add')
                 <a class="btn_add btn btn-success" href="{{url('admin/roles/create')}}"><i class="far fa-plus"></i> گروه بندی دسترسی جدید </a>
                 @endcan
+                <div class="d-flex">
+                    <select class="form-control form-control-alternative w-auto" name="status_filter">
+                        <option value="" selected>همه وضعیت ها</option>
+                        <option value="1" {{isset($status_filter)&&$status_filter==1 ? 'selected' : ''}}>غیرفعال</option>
+                        <option value="0" {{isset($status_filter)&&$status_filter==0 ? 'selected' : ''}}>فعال</option>
+                    </select>
+                </div>
             </div>
             <div class="table-responsive">
                 <div class="table-responsive pb-4">
@@ -56,13 +63,25 @@
                         <tbody>
                             <?php $i = ($roles->currentpage()-1) * $roles->perpage(); $i++; ?>
                             @foreach($roles as $role)
-                            <tr row-id="{{$role->id}}">
+                            <tr row-id="{{$role->id}}" has_relation="{{$role->has_relation}}" name="{{$role->name}}">
                                 <td>{{$i++}}</td>
                                 <td>{{$role->name}}</td>
-                                <td>{{$role->created_at}}</td>
+                                <td dir="ltr">{{Morilog\Jalali\Jalalian::forge($role->created_at)->format('%Y/%m/%d H:i')}}</td>
+                                <td>
+                                    @if($role->disable == 0)
+                                        <span class="badge badge-pill badge-success" ban>فعال</span>
+                                    @else
+                                        <span class="badge badge-pill badge-danger" ban>غیرفعال</span>
+                                    @endif
+                                </td>
                                 <td>
                                     @can('role.edit') <a class="table-action text-info" data-toggle="tooltip" data-original-title="ویرایش" href="{{url('admin/roles/'.$role->id.'/edit')}}"><i class="far fa-edit"></i></a> @endcan
                                     @can('role.delete') <a class="table-action btn_delete text-danger" data-toggle="tooltip" data-original-title="حذف" row-id="{{$role->id}}"><i class="far fa-trash-alt"></i></a> @endcan
+                                    @can('role.disable')
+                                        <a class="table-action btn_disable text-warning" data-toggle="tooltip" data-original-title="فعال سازی و غیر فعال سازی" row-id="{{$role->id}}" name="{{$role->name}}" status="{{$role->disable}}">
+                                            @if($role->disable == 0) <i class="far fa-ban"></i> @else <i class="far fa-check"></i> @endif
+                                        </a>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach
@@ -71,7 +90,12 @@
                 </div>
             </div>
             <div class="col-12">
-                {{$roles->links()}}
+                <?php
+                    $append_array = [];
+                    if(isset($search) && !empty($search)){ $append_array['search'] = $search; }
+                    if(isset($status_filter)){ $append_array['status_filter'] = $status_filter; }
+                ?>
+                {{$roles->appends($append_array)->links()}}
             </div>
         </div>
     </div>
@@ -155,5 +179,67 @@
             }
         });
     });
+
+    $('.btn_disable').click(function(){
+        var btn = $(this);
+        var name = $(this).attr('name');
+        var status = $(this).attr('status');
+        var record_id = $(this).attr('row-id');
+        var elm = $('.dataTable tr[row-id="'+record_id+'"]');
+        var question = status==1 ? `آیا دسترسی "${name}" فعال شود؟` : `آیا دسترسی "${name}" غیرفعال شود؟`;
+        Swal.fire({
+            title: "", text: question, type: "question", showCancelButton: true, buttonsStyling: false,
+            confirmButtonClass: "btn btn-danger m-1", confirmButtonText: "بله",
+            cancelButtonClass: "btn btn-secondary m-1", cancelButtonText: "خیر"
+        }).then((result)=>{
+            if(result.value){
+                load_screen(true);
+                $.ajax({
+                    url: "{{url('admin/roles')}}/"+record_id+"/disable", type: "post", dataType: "json", cache: false, contentType: false, processData: false,
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    complete: function(response){
+                        load_screen(false);
+                        response = JSON.parse(response.responseText);
+                        if(response.success){
+                            switch(response.state){
+                                case 1:
+                                    elm.children('td:nth-child('+(elm.children('td').length-1)+')').find('.badge[ban]').removeClass('badge-success').addClass('badge-danger').text('غیرفعال');
+                                    btn.html('<i class="far fa-check"></i>');
+                                    btn.attr('status',1);
+                                    notify_setting.type = 'danger';
+                                    $.notify({
+                                        icon: 'fad fa-ban', title: '',
+                                        message: 'دسترسی '+response.model.name+' غیرفعال شد',
+                                    },notify_setting);
+                                    break;
+                                case 0:
+                                    elm.children('td:nth-child('+(elm.children('td').length-1)+')').find('.badge[ban]').removeClass('badge-danger').addClass('badge-success').text('فعال');
+                                    btn.html('<i class="far fa-ban"></i>');
+                                    btn.attr('status',0);
+                                    notify_setting.type = 'success';
+                                    $.notify({
+                                        icon: 'fad fa-check', title: '',
+                                        message: 'دسترسی '+response.model.name+' فعال شد',
+                                    },notify_setting);
+                                    break;
+                            }
+                        }else{
+                            Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
+                        }
+                    },
+                    success: function(data){},
+                    error: function(data){ Swal.fire({ title: data.responseText, type: "error", confirmButtonText: "خٌب" }); }
+                });
+            }
+        });
+    });
+
+    $('select[name="status_filter"]').change(function(){
+        var status_filter = $(this).val();
+
+        var url = window.location.href+'?';
+        window.location.href = url.slice(0,url.indexOf('?'))+'?status_filter='+status_filter;
+    });
+
 </script>
 @endsection

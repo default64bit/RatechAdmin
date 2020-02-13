@@ -23,6 +23,19 @@ class RedirectIfNotAdmin
 		}
 		
 		$admin = Auth::guard($guard)->user();
+
+		// check if admin is disabled
+		if($admin->disable == 1){
+			Auth::guard($guard)->logout();
+			return redirect('admin/login');
+		}
+		// check if role is disabled
+		$roles = $admin->roles()->where('disable',1)->count();
+		if($roles){
+			Auth::guard($guard)->logout();
+			return redirect('admin/login');
+		}
+
 		View::share('admin',$admin);
 
 	    return $next($request);

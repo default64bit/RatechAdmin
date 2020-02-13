@@ -93,9 +93,9 @@ class LoginController extends Controller
         $password = $request->password;
 
         if(filter_var($username,FILTER_VALIDATE_EMAIL)){
-            return $attempt = $this->guard()->attempt(['email' => $username, 'password' => $password]);
+            return $attempt = $this->guard()->attempt(['email'=>$username, 'password'=>$password, 'disable'=>0]);
         }else{
-            return $attempt = $this->guard()->attempt(['username' => $username, 'password' => $password]);
+            return $attempt = $this->guard()->attempt(['username'=>$username, 'password'=>$password, 'disable'=>0]);
         }
     }
 

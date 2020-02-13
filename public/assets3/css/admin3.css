@@ -175,3 +175,7 @@ button[data-notify="dismiss"]{
 }
 span[data-notify="icon"]{ font-size: 1.3rem; }
 span[data-notify="title"]{ font-size: 1rem; font-weight: 600; }
+
+.sidenav .fad:before{
+    right: 0; left: 0;
+}

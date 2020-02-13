@@ -38,11 +38,13 @@ class SuperAdmin extends Seeder
             ['admin.disable','فعال/غیرفعال سازی ادمین'],
             ['admin.transform','انتقال داده های ادمین'],
 
-            ['role.browse','جستجو نقش'],
-            ['role.read','مشاهده نقش'],
-            ['role.edit','ویرایش نقش'],
-            ['role.add','افزودن نقش'],
-            ['role.delete','حذف نقش'],
+            ['role.browse','جستجو سطح دسترسی'],
+            ['role.read','مشاهده سطح دسترسی'],
+            ['role.edit','ویرایش سطح دسترسی'],
+            ['role.add','افزودن سطح دسترسی'],
+            ['role.delete','حذف سطح دسترسی'],
+            ['role.disable','فعال/غیرفعال سازی سطح دسترسی'],
+            ['role.transform','انتقال داده های سطح دسترسی'],
 
             ['panel_settings.browse','جستجو تنظیمات پنل'],
             ['panel_settings.read','مشاهده تنظیمات پنل'],

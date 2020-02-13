@@ -29,6 +29,7 @@ class CreatePermissionTables extends Migration
             $table->string('name');
             $table->string('label');
             $table->string('guard_name');
+            $table->boolean('disable')->default(0);
             $table->timestamps();
         });
 

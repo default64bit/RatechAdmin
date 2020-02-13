@@ -21,8 +21,24 @@ class RolesController extends Controller
     public function index()
     {
         $this->authorize('role.read');
-        $roles = Role::where('name','!=','SuperAdmin')->where('guard_name','admin')->latest()->paginate(20);
-        return view('admin.roles.index',compact('roles'));
+        $roles = Role::where('name','!=','SuperAdmin')->where('guard_name','admin')->latest();
+        if($request->has('search')){
+            $search = $request->search;
+            $roles = ModelHelper::search($roles,['name','label'],$search);
+        }
+        if($request->has('status_filter') && $request->status_filter != ''){
+            $status_filter = $request->status_filter;
+            $roles = $roles->where('disable',$status_filter);
+        }
+        $roles = $roles->paginate(20);
+
+        foreach($roles as &$role){
+            if(Admin::role($role->name)->count()){
+                $role['has_relation'] = 1;
+            }
+        }
+
+        return view('admin.roles.index',compact('roles','status_filter','search'));
     }
 
     /**
@@ -122,6 +138,20 @@ class RolesController extends Controller
         ]));
         
         return response(['success'=>true]);
+    }
+
+    /**
+     * Disable the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function disable($id)
+    {
+        $this->authorize('role.disable');
+        $role = Role::findOrFail($id);
+        $role->update(['disable'=>$role->disable?0:1]);
+        return response(['success'=>true,'state'=>$role->disable,'model'=>$role]);
     }
 
     /**

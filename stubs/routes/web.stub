@@ -25,6 +25,10 @@ Route::group(['namespace'=>'AdminPanel','prefix'=>'admin'], function () {
         Route::post('admins/{id}/transform','AdminsController@transform');
         
         Route::resources(['roles'=>'RolesController']);
+        Route::post('roles/{id}/disable','RolesController@disable');
+        Route::get('roles/{id}/transform','RolesController@transform_page');
+        Route::post('roles/{id}/transform','RolesController@transform');
+
         // Route::resources(['permissions'=>'PermissionsController']);
 
         //route insert head ->

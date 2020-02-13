@@ -38,7 +38,19 @@
                 @can('admin.add')
                 <a class="btn_add btn btn-success" href="{{url('admin/admins/create')}}"><i class="far fa-plus"></i> ادمین جدید </a>
                 @endcan
-                
+                <div class="d-flex">
+                    <select class="form-control form-control-alternative w-auto mx-3" name="role_filter">
+                        <option value="" selected>همه دسترسی ها</option>
+                        @foreach($roles as $role)
+                            <option value="{{$role->name}}" {{isset($role_filter)&&$role_filter==$role->name ? 'selected' : ''}}>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                    <select class="form-control form-control-alternative w-auto" name="status_filter">
+                        <option value="" selected>همه وضعیت ها</option>
+                        <option value="1" {{isset($status_filter)&&$status_filter==1 ? 'selected' : ''}}>غیرفعال</option>
+                        <option value="0" {{isset($status_filter)&&$status_filter==0 ? 'selected' : ''}}>فعال</option>
+                    </select>
+                </div>
             </div>
             <div class="table-responsive">
                 <div class="table-responsive pb-4">
@@ -86,11 +98,13 @@
                 </div>
             </div>
             <div class="col-12">
-                @if(isset($search) && !empty($search))
-                    {{$admins->appends(['search'=>$search])->links()}}
-                @else
-                    {{$admins->links()}}
-                @endif
+                <?php
+                    $append_array = [];
+                    if(isset($search) && !empty($search)){ $append_array['search'] = $search; }
+                    if(isset($role_filter)){ $append_array['role_filter'] = $role_filter; }
+                    if(isset($status_filter)){ $append_array['status_filter'] = $status_filter; }
+                ?>
+                {{$admins->appends($append_array)->links()}}
             </div>
         </div>
     </div>
@@ -152,7 +166,7 @@
         var username = elm.attr('username');
         var has_relation = elm.attr('has_relation');
 
-        var question = has_relation==1 ? `پیش از حذف ادمین ${username} لازم است اطلاعات ثبت شده توسط وی را به ادمین دیگری انتقال دهید.` : `آیا ${username} حذف شود؟`;
+        var question = has_relation==1 ? `پیش از حذف ادمین "${username}" لازم است اطلاعات ثبت شده توسط وی را به ادمین دیگری انتقال دهید.` : `آیا "${username}" حذف شود؟`;
         var confirmButtonText = has_relation==1 ? 'انتقال دسترسی' : 'بله';
         var cancelButtonText = has_relation==1 ? 'لغو' : 'خیر';
         Swal.fire({
@@ -175,7 +189,7 @@
                                 table.row(elm).remove().draw();
                                 $.notify({
                                     icon: 'fad fa-trash', title: '',
-                                    message: `${username} حذف شد`,
+                                    message: `"${username}" حذف شد`,
                                 },notify_setting);
                             }else{
                                 notify_setting.type = 'danger';
@@ -198,7 +212,7 @@
         var status = $(this).attr('status');
         var record_id = $(this).attr('row-id');
         var elm = $('.dataTable tr[row-id="'+record_id+'"]');
-        var question = status==1 ? `آیا ادمین ${username} فعال شود؟` : `آیا ادمین ${username} غیرفعال شود؟`;
+        var question = status==1 ? `آیا ادمین "${username}" فعال شود؟` : `آیا ادمین "${username}" غیرفعال شود؟`;
         Swal.fire({
             title: "", text: question, type: "question", showCancelButton: true, buttonsStyling: false,
             confirmButtonClass: "btn btn-danger m-1", confirmButtonText: "بله",
@@ -244,5 +258,21 @@
             }
         });
     });
+
+    $('select[name="role_filter"]').change(function(){
+        var role_filter = $(this).val();
+        var status_filter = $('select[name="status_filter"]').val();
+
+        var url = window.location.href+'?';
+        window.location.href = url.slice(0,url.indexOf('?'))+'?role_filter='+role_filter+'&status_filter='+status_filter;
+    });
+    $('select[name="status_filter"]').change(function(){
+        var status_filter = $(this).val();
+        var role_filter = $('select[name="role_filter"]').val();
+
+        var url = window.location.href+'?';
+        window.location.href = url.slice(0,url.indexOf('?'))+'?role_filter='+role_filter+'&status_filter='+status_filter;
+    });
+
 </script>
 @endsection
