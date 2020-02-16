@@ -46,7 +46,7 @@
             }
         ?>
         <div class="col-12">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav w-100">
                 @foreach($models_array as $name => $permission)
                 <li class="nav-item" name="nav_group">
                     <div class="d-flex align-items-center my-1">
