@@ -42,7 +42,7 @@
         <div class="form-row mb-3">
             <div class="col-md-6">
                 <label class="form-control-label">موبایل <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
-                <input type="text" class="form-control form-control-alternative" name="phone" placeholder="">
+                <input type="text" class="form-control form-control-alternative" name="phone" placeholder="09120000000">
             </div>
             <div class="col-md-6">
                 <label class="form-control-label">ایمیل <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
@@ -104,40 +104,38 @@
         var admin_role = $('select[name="admin_role"]').val();
         // admin_roles = admin_roles.toString();
         
-        if(name !="" && username !="" && email !="" && password !="" && admin_roles !=""){
-            form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
-            form_data.append('name',name);
-            form_data.append('family',family);
-            form_data.append('username',convertPersianNumbers(username));
-            form_data.append('email',email);
-            form_data.append('phone',convertPersianNumbers(phone));
-            form_data.append('password',convertPersianNumbers(password));
-            form_data.append('password_confirmation',convertPersianNumbers(password_confirmation));
-            form_data.append('admin_role',admin_role);
-            load_screen(true);
-            $.ajax({
-                url: "{{url('admin/admins')}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,
-                complete: function(response){
-                    load_screen(false);
-                    response = JSON.parse(response.responseText);
-                    if(response.success){
-                        window.location.href = "{{url()->previous()}}";
-                    }else{
-                        //if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
-                        notify_setting.type = 'danger';
-                        $.notify({
-                            icon: 'fad fa-info',
-                            title: '',
-                            message: response.error, 
-                        },notify_setting);
-                    }
-                },
-                success: function(data){},
-                error: function(data){
-                    //Swal.fire({title: data.responseText, type: "error", confirmButtonText: "خٌب"});
+        form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
+        form_data.append('name',name);
+        form_data.append('family',family);
+        form_data.append('username',convertPersianNumbers(username));
+        form_data.append('email',email);
+        form_data.append('phone',convertPersianNumbers(phone));
+        form_data.append('password',convertPersianNumbers(password));
+        form_data.append('password_confirmation',convertPersianNumbers(password_confirmation));
+        form_data.append('admin_role',admin_role);
+        load_screen(true);
+        $.ajax({
+            url: "{{url('admin/admins')}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,
+            complete: function(response){
+                load_screen(false);
+                response = JSON.parse(response.responseText);
+                if(response.success){
+                    window.location.href = "{{url()->previous()}}";
+                }else{
+                    //if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                    notify_setting.type = 'danger';
+                    $.notify({
+                        icon: 'fad fa-info',
+                        title: '',
+                        message: response.error, 
+                    },notify_setting);
                 }
-            });
-        }
+            },
+            success: function(data){},
+            error: function(data){
+                //Swal.fire({title: data.responseText, type: "error", confirmButtonText: "خٌب"});
+            }
+        });
     });
 
 </script>

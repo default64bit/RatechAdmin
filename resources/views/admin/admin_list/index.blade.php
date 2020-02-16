@@ -86,7 +86,7 @@
                                     @can('admin.edit') <a class="table-action text-info" data-toggle="tooltip" data-original-title="ویرایش" href="{{url('admin/admins/'.$admin_detail->id.'/edit')}}"><i class="far fa-edit"></i></a> @endcan
                                     @can('admin.delete') <a class="table-action btn_delete text-danger" data-toggle="tooltip" data-original-title="حذف" row-id="{{$admin_detail->id}}"><i class="far fa-trash-alt"></i></a> @endcan
                                     @can('admin.disable')
-                                        <a class="table-action btn_disable text-warning" data-toggle="tooltip" data-original-title="فعال سازی و غیر فعال سازی" row-id="{{$admin_detail->id}}">
+                                        <a class="table-action btn_disable text-warning" data-toggle="tooltip" data-original-title="فعال سازی و غیر فعال سازی" row-id="{{$admin_detail->id}}" username="{{$admin_detail->username}}" status="{{$admin_detail->disable}}">
                                             @if($admin_detail->disable == 0) <i class="far fa-ban"></i> @else <i class="far fa-check"></i> @endif
                                         </a>
                                     @endcan

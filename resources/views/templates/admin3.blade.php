@@ -163,7 +163,7 @@
                                             <img alt="Image placeholder" src="{{$admin->avatar_image!=''?asset('img/admins/'.$admin->avatar_image):asset('assets3/img/faces/avatar6.png')}}">
                                         </span>
                                         <div class="media-body mr-2 d-none d-lg-block">
-                                            <span class="mb-0 text-sm  font-weight-bold">{{$admin['name']}}</span>
+                                            <span class="mb-0 text-sm  font-weight-bold">{{$admin['name'].' '.$admin['family']}}</span>
                                         </div>
                                     </div>
                                 </a>

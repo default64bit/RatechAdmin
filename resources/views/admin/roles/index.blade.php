@@ -154,29 +154,46 @@
     $('.btn_delete').click(function(){
         var record_id = $(this).attr('row-id');
         var elm = $('.dataTable tr[row-id="'+record_id+'"]');
+        var name = elm.attr('name');
+        var has_relation = elm.attr('has_relation');
+
+        var question = has_relation==1 ? `پیش از حذف دسترسی "${name}" لازم است تا دسترسی دیگری به ادمین های دارای این دسترسی اختصاص دهید` : `آیا "${name}" حذف شود؟`;
+        var confirmButtonText = has_relation==1 ? 'اختصاص دسترسی' : 'بله';
+        var cancelButtonText = has_relation==1 ? 'لغو' : 'خیر';
         Swal.fire({
-            title: "", text: "گروه بندی دسترسی انتخابی حذف شود؟", type: "warning", showCancelButton: true, buttonsStyling: false,
-            confirmButtonClass: "btn btn-danger m-1", confirmButtonText: "بله",
-            cancelButtonClass: "btn btn-secondary m-1", cancelButtonText: "خیر"
+            title: "", text: question, type: "question", showCancelButton: true, buttonsStyling: false,
+            confirmButtonClass: "btn btn-danger m-1", confirmButtonText: confirmButtonText,
+            cancelButtonClass: "btn btn-secondary m-1", cancelButtonText: cancelButtonText
         }).then((result)=>{
             if(result.value){
-                load_screen(true);
-                $.ajax({
-                    url: "{{url('admin/roles')}}/"+record_id, type: "delete", cache: false, contentType: false, processData: false,
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    complete: function(response){
-                        load_screen(false);
-                        response = JSON.parse(response.responseText);
-                        if(response.success){
-                            table.row(elm).remove().draw();
-                            Swal.fire({title: '', text: "گروه بندی دسترسی انتخابی حذف شد.", type: "success", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
-                        }else{
-                            Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});
-                        }
-                    },
-                    success: function(data){},
-                    error: function(data){ Swal.fire({title: data.responseText, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false}); }
-                });
+                if(has_relation==1){
+                    window.location.href = "{{url('admin/roles')}}/"+record_id+"/transform";
+                }else{
+                    load_screen(true);
+                    $.ajax({
+                        url: "{{url('admin/roles')}}/"+record_id, type: "delete", cache: false, contentType: false, processData: false,
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        complete: function(response){
+                            load_screen(false);
+                            response = JSON.parse(response.responseText);
+                            if(response.success){
+                                table.row(elm).remove().draw();
+                                notify_setting.type = 'success';
+                                $.notify({
+                                    icon: 'fad fa-trash', title: '',
+                                    message: `${name} حذف شد`,
+                                },notify_setting);
+                            }else{
+                                notify_setting.type = 'danger';
+                                $.notify({
+                                    icon: 'fad fa-info', title: '',
+                                    message: response.error, 
+                                },notify_setting);
+                            }
+                        },
+                        success: function(data){},
+                    });
+                }
             }
         });
     });

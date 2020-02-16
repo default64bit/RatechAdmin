@@ -9,6 +9,7 @@ use App\Models\Admin;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\AdminPanel\AdminsRequest;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class AdminsController extends Controller
@@ -219,7 +220,7 @@ class AdminsController extends Controller
             'message' => $admin->username.' با موفقیت حذف شد'
         ]));
 
-        return response()->json(['success'=>true],422);
+        return response()->json(['success'=>true]);
     }
 
     /**
@@ -233,7 +234,7 @@ class AdminsController extends Controller
         $this->authorize('admin.disable');
         $admin = Admin::findOrFail($id);
         $admin->update(['disable'=>$admin->disable?0:1]);
-        return response(['success'=>true,'state'=>$admin->disable]);
+        return response(['success'=>true,'state'=>$admin->disable,'model'=>$admin]);
     }
 
     /**
