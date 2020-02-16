@@ -75,7 +75,14 @@
                     }
                 },
                 success: function(data){},
-                error: function(data){ Swal.fire({ title: data.responseText, type: "error", confirmButtonText: "خٌب" }); }
+                error: function(data){
+                    if(data.status == 403){
+                        notify_setting.type = 'danger';
+                        $.notify({
+                            icon: 'fad fa-info', title: '', message: 'شما به این قسمت دسترسی ندارید',
+                        },notify_setting);
+                    }
+                }
             });
         }
     });
