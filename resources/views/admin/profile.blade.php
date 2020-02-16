@@ -30,19 +30,29 @@
                     </div>
                 </div>
                 <div class="form-row mb-3">
-                    <div class="col-12">
+                    <div class="col-6">
                         <label class="form-control-label">نام</label>
                         <input type="text" class="form-control form-control-alternative" name="name" value="{{$admin->name}}">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-control-label">نام خانوادگی</label>
+                        <input type="text" class="form-control form-control-alternative" name="family" value="{{$admin->family}}">
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="col-12">
+                        <label class="form-control-label">نام کاربری</label>
+                        <input type="text" class="form-control form-control-alternative" name="username" value="{{$admin->username}}">
                     </div>
                 </div>
                 <div class="form-row mb-3">
                     <div class="col-6">
-                        <label class="form-control-label">نام کاربری</label>
-                        <input type="text" class="form-control form-control-alternative" name="username" value="{{$admin->username}}">
+                        <label class="form-control-label">موبایل</label>
+                        <input type="text" class="form-control form-control-alternative" name="phone" placeholder="09120000000" value="{{$admin->phone}}">
                     </div>
                     <div class="col-6">
                         <label class="form-control-label">ایمیل</label>
-                        <input type="text" class="form-control form-control-alternative" name="email" value="{{$admin->email}}">
+                        <input type="text" class="form-control form-control-alternative" name="email" placeholder="example@example.com" value="{{$admin->email}}">
                     </div>
                 </div>
             </div>
@@ -95,14 +105,18 @@
 
     $('.btn_edit_confirm').click(function(){
         var name = $('.card-body input[name="name"]').val();
+        var family = $('.card-body input[name="family"]').val();
         var username = $('.card-body input[name="username"]').val();
         var email = $('.card-body input[name="email"]').val();
+        var phone = $('.card-body input[name="phone"]').val();
         
         if(name !="" && username !="" && email !=""){
             form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
             form_data.append('name',name);
+            form_data.append('family',family);
             form_data.append('username',username);
             form_data.append('email',email);
+            form_data.append('phone',phone);
             load_screen(true);
             $.ajax({
                 url: "{{url('admin/edit_profile')}}", type: "post", data: form_data, dataType: "text", cache: false, contentType: false, processData: false,

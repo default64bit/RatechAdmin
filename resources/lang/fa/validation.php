@@ -161,7 +161,7 @@ return [
         'admin_role' => 'دسترسی ادمین',
         'phone' => 'شماره تماس',
 
-        'permissions' => 'دسترسی'
+        'permissions' => 'دسترسی',
 
     ],
 ];

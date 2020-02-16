@@ -30,17 +30,21 @@ class HomeController extends Controller
         $admin = Auth::guard('admin')->user();
 
         $validated_request = Validator::make($request->all(),[
-            'name' => 'required|max:255|',
+            'name' => 'required|max:255',
+            'family' => 'required|max:255',
             'username' => 'required|max:255|unique:admins,id,'.$admin->id,
             'email' => 'required|max:255|email|unique:admins,id,'.$admin->id,
+            'phone' => 'required|numeric|regex:/^(0)(9){1}[0-9]{9}+$/|unique:admins,phone,'.$admin->id,
         ]);
         if($validated_request->fails()){ return response()->json(['error'=>$validated_request->errors()],422); }
 
         $admin = Admin::findOrFail($admin->id);
         $admin->update([
             'name'=>$request->name,
+            'family'=>$request->family,
             'username'=>$request->username,
             'email'=>$request->email,
+            'phone'=>$request->phone,
         ]);
         if($request->hasFile('avatar_image')){
             $img = $request->file('avatar_image');
