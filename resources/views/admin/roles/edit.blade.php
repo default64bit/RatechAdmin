@@ -46,17 +46,36 @@
             }
         ?>
         <div class="col-12">
-            @foreach($models_array as $name => $permission)
-            <h4 class="badge badge-dark text-white">{{str_replace('جستجو ','',$permission[0][2])}}</h4>
-            <div class="form-row card p-2 d-flex flex-row justify-content-between">
-                @foreach($permission as $item)
-                <div class="custom-control custom-checkbox" name="permission_item">
-                    <input type="checkbox" class="custom-control-input" permission_id="{{$item[0]}}" name="{{$item[1]}}" id="{{$item[0]}}_{{$item[1]}}">
-                    <label class="custom-control-label" for="{{$item[0]}}_{{$item[1]}}"> {{$item[2]}} </label>
-                </div>
+            <ul class="navbar-nav">
+                @foreach($models_array as $name => $permission)
+                <li class="nav-item" name="nav_group">
+                    <div class="d-flex align-items-center my-1">
+                        <div class="custom-control custom-checkbox" name="check_all" id="check-all-{{$permission[0][0]}}">
+                            <input type="checkbox" class="custom-control-input" name="check_all" id="{{$permission[0][0]}}">
+                            <label class="custom-control-label" for="{{$permission[0][0]}}"></label>
+                        </div>
+                        <a class="nav-link" href="#navbar-{{$permission[0][0]}}" data-toggle="collapse" role="button" aria-expanded="false">
+                            <span class="nav-link-text">{{str_replace('جستجو ','',$permission[0][2])}}</span>
+                        </a>
+                        <i class="fad fa-chevron-down mt-2 mr-2"></i>
+                    </div>
+                    <div class="collapse bg-secondary" id="navbar-{{$permission[0][0]}}">
+                        <ul class="nav nav-sm flex-column px-4">
+                            @foreach($permission as $item)
+                            <li class="nav-item">
+                                <span class="nav-link">
+                                    <div class="custom-control custom-checkbox" name="permission_item">
+                                        <input type="checkbox" class="custom-control-input" permission_id="{{$item[0]}}" name="{{$item[1]}}" id="{{$item[0]}}_{{$item[1]}}">
+                                        <label class="custom-control-label" for="{{$item[0]}}_{{$item[1]}}"> {{$item[2]}} </label>
+                                    </div>
+                                </span>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </li>
                 @endforeach
-            </div>
-            @endforeach
+            </ul>
         </div>
     </div>
     <div class="card-footer">
@@ -89,7 +108,7 @@
                 permissions.push(checkbox.attr('permission_id'));
             }
         });
-        permissions = permissions.toString();
+        permissions = JSON.stringify(permissions);
         
         form_data.append('_method','PUT');
         form_data.append('_token',$('meta[name=csrf-token]').attr('content'));
@@ -106,12 +125,46 @@
                 if(response.success){
                     window.location.href = "{{url()->previous()}}";
                 }else{
-                    if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                    //if(response.error){Swal.fire({title: '', text: response.error, type: "error", confirmButtonText: "خٌب", confirmButtonClass: "btn btn-outline-default", buttonsStyling: false});}
+                    notify_setting.type = 'danger';
+                    $.notify({
+                        icon: 'fad fa-info',
+                        title: '',
+                        message: response.error, 
+                    },notify_setting);
                 }
             },
             success: function(response){},
-            error: function(response){ Swal.fire({ title: response.responseText, type: "error", confirmButtonText: "خٌب" }); }
+            error: function(response){
+                //Swal.fire({ title: response.responseText, type: "error", confirmButtonText: "خٌب" });
+            }
         });
+    });
+
+    $('.custom-checkbox[name="check_all"]').click(function(){
+        var checkbox = $(this).find('input[type="checkbox"]');
+        if(checkbox.prop("checked")){
+            $(this).closest('.nav-item').find('div[name="permission_item"] input').prop("checked",true);
+        }else{
+            $(this).closest('.nav-item').find('div[name="permission_item"] input').prop("checked",false);
+        }
+    });
+    $('.custom-checkbox[name="permission_item"] input[type="checkbox"]').change(function(){
+        //var checkbox = $(this).find('input[type="checkbox"]');
+        var checkbox = $(this);
+        if(checkbox.prop("checked")){
+            var all_true = true;
+            $(this).closest('ul').find('li input[type="checkbox"]').each(function(index){
+                if(!$(this).prop("checked")){
+                    all_true = false;
+                }
+            });
+            if(all_true){
+                $(this).closest('li[name="nav_group"]').find('.custom-checkbox[name="check_all"] input').prop("checked",true);    
+            }
+        }else{
+            $(this).closest('li[name="nav_group"]').find('.custom-checkbox[name="check_all"] input').prop("checked",false);
+        }
     });
 
 </script>

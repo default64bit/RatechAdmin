@@ -38,7 +38,12 @@ class RolesController extends Controller
             }
         }
 
-        return view('admin.roles.index',compact('roles','status_filter','search'));
+        $compact = [
+            'roles' => $roles,
+        ];
+        if(isset($status_filter)){ $compact['status_filter'] = $status_filter; }
+        if(isset($search)){ $compact['search'] = $search; }
+        return view('admin.roles.index',$compact);
     }
 
     /**
@@ -67,15 +72,14 @@ class RolesController extends Controller
             'name'=>$request->name,
             'label'=>$request->name,
         ]);
-        $permissions = explode(',',$request->permissions);
+        $permissions = json_decode($request->permissions);
         foreach($permissions as $permission_id){
             $permission = Permission::find($permission_id);
             if($permission){ $role->givePermissionTo($permission); }
         }
 
         session()->flash('action_status', json_encode([
-            'type' => 'success', 'icon' => "fad fa-plus",
-            'title' => 'دسترسی نقش', 'message' => 'نقش جدید با موفقیت دسترسی شد'
+            'type' => 'success', 'icon' => "fad fa-plus", 'title' => '', 'message' => 'دسترسی جدید با موفقیت ایجاد شد'
         ]));
 
         return response(['success'=>true]);
@@ -126,18 +130,67 @@ class RolesController extends Controller
         foreach($role_permissions as $permission){
             $role->revokePermissionTo($permission->name);
         }
-        $permissions = explode(',',$request->permissions);
+        $permissions = json_decode($request->permissions);
         foreach($permissions as $permission_id){
             $permission = Permission::find($permission_id);
             if($permission){ $role->givePermissionTo($permission); }
         }
 
         session()->flash('action_status', json_encode([
-            'type' => 'info', 'icon' => "fad fa-pen",
-            'title' => 'ویرایش نقش', 'message' => 'نقش با موفقیت ویرایش شد'
+            'type' => 'info', 'icon' => "fad fa-pen", 'title' => '', 'message' => 'دسترسی با موفقیت ویرایش شد'
         ]));
         
         return response(['success'=>true]);
+    }
+
+    /**
+     * Show the form for transforming the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function transform_page($id)
+    {
+        $this->authorize('role.transform');
+        $role = Role::findOrFail($id);
+
+        $admins = Admin::role($role->name)->get();
+        $roles = Role::select('id','name')->where('name','!=','SuperAdmin')->where('id','!=',$id)->get();
+        $role_id = $id;
+
+        return view('admin.roles.transform',compact('admins','roles','role_id'));
+    }
+
+    /**
+     * Transform the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function transform(Request $request, $id)
+    {
+        $this->authorize('role.transform');
+
+        $transforms = json_decode($request->transform_list,true);
+
+        $role = Role::findOrFail($id);
+        $admins = Admin::role($role->name)->get();
+
+        foreach($admins as $admin){
+            $new_role =  $transforms[$admin->id];
+            $admin->removeRole($role->name);
+            $admin->assignRole($new_role);
+        }
+
+        $role->delete();
+
+        session()->flash('action_status', json_encode([
+            'type' => 'danger', 'icon' => "fad fa-trash", 'title' => '',
+            'message' => $role->name.' با موفقیت حذف شد'
+        ]));
+
+        return response()->json(['success'=>true]);
     }
 
     /**

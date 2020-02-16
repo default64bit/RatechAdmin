@@ -18,8 +18,13 @@ class RolesRequest extends FormRequest
         return true;
     }
 
-    protected function failedValidation(Validator $validator) {
-        throw new HttpResponseException(response()->json(['error'=>$validator->errors()->first()],422));
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(
+            response()->json([
+                'error'=>$validator->errors()->first(),
+                'error_type'=>array_keys($validator->errors()->messages())[0],
+            ],422)
+        );
     }
 
     /**
@@ -29,26 +34,20 @@ class RolesRequest extends FormRequest
      */
     public function rules()
     {
+        $rule = [
+            'permissions' => 'required|json',
+            'permissions.*' => 'required|exists:permissions,id',
+        ];
+
         switch($this->method()){
             case 'POST':
-                return [
-                    'name' => 'required|unique:roles|max:255',
-                    'permissions' => 'required',
-                ]; break;
+                $rule['name'] = 'required|unique:roles|max:255';
+                break;
             case 'PUT':
-                return [
-                    'name' => 'required|max:255|unique:roles,name,'.$this->id,
-                    'permissions' => 'required',
-                ]; break;
+                $rule['name'] = 'required|max:255|unique:roles,id,'.$this->id;
+                break;
         }
-    }
 
-    public function messages()
-    {
-        return [
-            'name.required' => 'نام نقش اجباری است',
-            'name.unique' => 'نام نقش قبلا استفاده شده',
-            'permissions.required' => 'حداقل یک نقش باید انتخاب شود',
-        ];
+        return $rule;
     }
 }

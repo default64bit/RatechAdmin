@@ -47,7 +47,14 @@ class AdminsController extends Controller
 
         $roles = DB::table('roles')->where('guard_name','admin')->get();
 
-        return view('admin.admin_list.index',compact('admins','roles','role_filter','status_filter','search'));
+        $compact = [
+            'admins' => $admins,
+            'roles' => $roles,
+        ];
+        if(isset($role_filter)){ $compact['role_filter'] = $role_filter; }
+        if(isset($status_filter)){ $compact['status_filter'] = $status_filter; }
+        if(isset($search)){ $compact['search'] = $search; }
+        return view('admin.admin_list.index',$compact);
     }
 
     /**
