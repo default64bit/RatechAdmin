@@ -57,10 +57,10 @@
                         <i class="fad fa-chevron-down mt-2 mr-2"></i>
                     </div>
                     <div class="collapse bg-secondary" id="navbar-{{$permission[0][0]}}">
-                        <ul class="nav nav-sm flex-column px-4">
+                        <ul class="nav nav-sm flex-row px-4">
                             @foreach($permission as $item)
                             <li class="nav-item">
-                                <span class="nav-link">
+                                <span class="nav-link mx-3">
                                     <div class="custom-control custom-checkbox" name="permission_item">
                                         <input type="checkbox" class="custom-control-input" permission_id="{{$item[0]}}" name="{{$item[1]}}" id="{{$item[0]}}_{{$item[1]}}">
                                         <label class="custom-control-label" for="{{$item[0]}}_{{$item[1]}}"> {{$item[2]}} </label>
@@ -121,8 +121,8 @@
                 }
             },
             success: function(data){},
-            error: function(data){ Swal.fire({
-                //title: data.responseText, type: "error", confirmButtonText: "خٌب" });
+            error: function(data){
+                //Swal.fire({ title: data.responseText, type: "error", confirmButtonText: "خٌب" });
             }
         });
     });

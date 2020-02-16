@@ -28,6 +28,7 @@ class Admin extends Authenticatable
     ];
 
     const RELATIONS_FOR_CHECK = [
+        // EXAMPLE
         //'blogs' => ["relation_name"=>'blogs', "permission_name"=>'blog', "fa_name"=>'مقالات', 'foreign_key'=>'admin_id']
     ];
 

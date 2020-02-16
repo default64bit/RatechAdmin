@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Helpers\ModelHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\AdminPanel\AdminsRequest;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class AdminsController extends Controller
 {
@@ -16,7 +18,7 @@ class AdminsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('admin.read');
         $admins = Admin::with('roles')->where('id','!=',1)->latest();

@@ -18,7 +18,7 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('role.read');
         $roles = Role::where('name','!=','SuperAdmin')->where('guard_name','admin')->latest();
