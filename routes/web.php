@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['namespace'=>'AdminPanel','prefix'=>'admin'], function () {
     Route::get('/', 'HomeController@index');
 
