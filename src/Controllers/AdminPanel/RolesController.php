@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AdminPanel\RolesRequest;
 use App\Models\Admin;
+use App\Helpers\ModelHelper;
 
 class RolesController extends Controller
 {

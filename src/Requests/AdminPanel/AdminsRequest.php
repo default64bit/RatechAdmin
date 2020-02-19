@@ -34,6 +34,12 @@ class AdminsRequest extends FormRequest
      */
     public function rules()
     {
+        if(isset($this->id) && !empty($this->id)){
+            if(!is_numeric($this->id)){
+                throw new HttpResponseException(response()->json([],400));
+            }
+        }
+        
         $rule = [
             'name' => 'required|max:255',
             'family' => 'required|max:255',

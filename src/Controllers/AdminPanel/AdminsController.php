@@ -48,7 +48,7 @@ class AdminsController extends Controller
             }
         }
 
-        $roles = DB::table('roles')->where('guard_name','admin')->get();
+        $roles = DB::table('roles')->where('name','!=','SuperAdmin')->where('guard_name','admin')->get();
 
         $compact = [
             'admins' => $admins,

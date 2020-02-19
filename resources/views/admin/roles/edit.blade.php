@@ -30,7 +30,7 @@
     <div class="card-body">
         <div class="form-row">
             <div class="col-12">
-                <label class="form-control-label">عنوان</label>
+                <label class="form-control-label">عنوان <i class="fas fa-star-of-life text-red" style="font-size:8px;"></i></label>
                 <input type="text" class="form-control" name="name" placeholder="" value="{{$role->name}}">
             </div>
         </div>

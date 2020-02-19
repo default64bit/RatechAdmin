@@ -34,6 +34,12 @@ class RolesRequest extends FormRequest
      */
     public function rules()
     {
+        if(isset($this->id) && !empty($this->id)){
+            if(!is_numeric($this->id)){
+                throw new HttpResponseException(response()->json([],400));
+            }
+        }
+        
         $rule = [
             'permissions' => 'required|json',
             'permissions.*' => 'required|exists:permissions,id',
