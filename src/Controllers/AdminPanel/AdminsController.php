@@ -184,7 +184,7 @@ class AdminsController extends Controller
                 array_push($sections,[
                     'relation_name' => $relation['relation_name'],
                     'fa_name' => $relation['fa_name'],
-                    'replacements' => Admin::where('id','!=',$id)->permission($relation['permission_name'].'.read')->get(),
+                    'replacements' => Admin::where('id','!=',$id)->where('name','!=','SuperAdmin')->permission($relation['permission_name'].'.read')->get(),
                 ]);
             }catch(Exception $e){}
         }
