@@ -44,7 +44,8 @@ class install extends Command
         Artisan::call('ratech-admin:update-app-service-provider');
         Artisan::call('ratech-admin:update-config-auth');
         Artisan::call('ratech-admin:update-database-seeder');
-        
+        Artisan::call('ratech-admin:update-console-kernel');
+
 	    // Artisan::call('vendor:publish Default64bit\RatechAdmin\RatechAdminServiceProvider');
 	    // Artisan::call('migrate');
 	    // Artisan::call('db:seed');

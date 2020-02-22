@@ -41,6 +41,7 @@ class RatechAdminServiceProvider extends ServiceProvider
             __DIR__.'/Requests' => app_path('Http/Requests'),
             __DIR__.'/Models' => app_path('/Models'),
             __DIR__.'/Helpers' => app_path('/Helpers'),
+            __DIR__.'/Commands/BackupDatabase.php' => app_path('/Console/Commands'),
 
             __DIR__.'/../public' => public_path('/'),
 

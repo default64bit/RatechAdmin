@@ -1,0 +1,2 @@
+
+        $schedule->command('ratech-admin:database-backup')->weekly();
