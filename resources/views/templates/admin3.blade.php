@@ -8,7 +8,7 @@
         <link rel="icon" href="<?=asset('img/logo.png')?>" type="image/png">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <link rel="stylesheet" href="{{asset('fontawsome.5.10.1/releases/v5.10.1/css/pro.min.css')}}">
+        <link rel="stylesheet" href="{{asset('fontawsome/releases/v0.0.0/css/pro.min.css')}}">
 
         @if(App::isLocale('fa'))
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" rel="stylesheet">
