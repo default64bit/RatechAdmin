@@ -32,7 +32,7 @@ class RatechAdminServiceProvider extends ServiceProvider
             \Default64bit\RatechAdmin\Commands\updateRoutes::class,
             \Default64bit\RatechAdmin\Commands\updateConfigAuth::class,
 	        \Default64bit\RatechAdmin\Commands\updateDatabaseSeeder::class,
-            \Default64bit\RatechAdmin\Commands\UpdateConsoleKernel::class,
+            \Default64bit\RatechAdmin\Commands\updateConsoleKernel::class,
         ]);
 
         $this->publishes([
