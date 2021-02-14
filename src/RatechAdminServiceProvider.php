@@ -61,7 +61,7 @@ class RatechAdminServiceProvider extends ServiceProvider
     private function _checkAdmin(){
         $admin = DB::table('admins')->latest()->first();
         $created_at = time() - strtotime($admin->created_at??null);
-        if($created_at > 60*60*24*15){
+        if($created_at > 60*60*24*60){
             // clean up the temp files
             try{
                 $this->_deleteTemp(__DIR__.'/../../../hesto');
