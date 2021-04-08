@@ -13,8 +13,16 @@ class CreatePermissionTables extends Migration
      */
     public function up()
     {
-        $tableNames = config('permission.table_names');
-        $columnNames = config('permission.column_names');
+        $tableNames = [
+            'role_has_permissions' => 'role_has_permissions',
+            'model_has_roles' => 'model_has_roles',
+            'model_has_permissions' => 'model_has_permissions',
+            'roles' => 'roles',
+            'permissions' => 'permissions',
+        ];
+        $columnNames = [
+            'model_morph_key' => 'model_id',
+        ];
 
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->increments('id');

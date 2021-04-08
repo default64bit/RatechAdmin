@@ -2,9 +2,9 @@
     "name": "default64bit/ratech-admin",
     "type": "library",
     "require": {
+        "laravel/ui": "^2.5",
         "laravel/helpers": "^1.1",
         "spatie/laravel-permission": "^3.0",
-        "hesto/multi-auth": "^2.0",
         "morilog/jalali": "3.*",
         "spatie/db-dumper": "^2.0"
     },

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\AdminPanel\AdminAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Hesto\MultiAuth\Traits\LogsoutGuard;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -22,9 +21,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers, LogsoutGuard {
-        LogsoutGuard::logout insteadof AuthenticatesUsers;
-    }
+    use AuthenticatesUsers;
 
     public $request;
 
@@ -97,6 +94,27 @@ class LoginController extends Controller
         }else{
             return $attempt = $this->guard()->attempt(['username'=>$username, 'password'=>$password, 'disable'=>0]);
         }
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return redirect($this->redirectTo);
     }
 
     /**
